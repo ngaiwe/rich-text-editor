@@ -1,0 +1,39 @@
+# Build output directories
+lib/
+dist/
+build/
+
+# Dependency directories
+node_modules/
+
+# System files
+.DS_Store
+
+# Package manager files
+.pnp.*
+package-lock.json
+
+# Log files
+*.log
+
+# Temporary files
+*.orig
+
+# Configuration files
+jsconfig.json
+tsconfig.tsbuildinfo
+
+# IDE configuration files
+.vscode/
+.idea/
+
+# Website build directories
+site
+website/build
+
+# Test coverage directory
+coverage
+
+# Other
+.changelog
+.rollup.cache
