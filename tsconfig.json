@@ -11,19 +11,16 @@
     "lib": ["ESNext", "DOM"],
     "module": "ESNext",
     "target": "ES6",
-    "moduleResolution": "node",
+    "moduleResolution": "bundler",
     "noFallthroughCasesInSwitch": true,
     "noImplicitReturns": true,
     "noImplicitUseStrict": false,
     "noStrictGenericChecks": false,
     "resolveJsonModule": true,
     "skipLibCheck": true,
-    "allowJs": true
+    "allowJs": true,
+    "strict": true
   },
-  "exclude": [
-    "node_modules",
-    "examples",
-    "website",
-    "**.mjs"
-  ]
+  "include": ["packages/*/src"],
+  "exclude": ["node_modules", "examples", "website", "**/*.mjs", "*.js"]
 }
