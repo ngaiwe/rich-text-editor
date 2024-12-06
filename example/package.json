@@ -11,7 +11,8 @@
   "dependencies": {
     "react": "18.2.0",
     "react-dom": "18.2.0",
-    "next": "15.0.3"
+    "next": "15.0.3",
+    "@editor/react-editor": "workspace:*"
   },
   "devDependencies": {
     "typescript": "^5",

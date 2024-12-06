@@ -120,11 +120,15 @@ module.exports = {
         'plugin:prettier/recommended',
       ],
       rules: {
+        'prettier/prettier': 'error',
         // https://github.com/typescript-eslint/typescript-eslint/blob/master/packages/eslint-plugin/docs/rules/no-use-before-define.md#how-to-use
         'no-use-before-define': 'off',
         '@typescript-eslint/no-use-before-define': ['error', 'nofunc'],
-        'no-unused-vars': 'off',
-        '@typescript-eslint/no-unused-vars': 'error',
+        'no-unused-vars': 'on',
+        '@typescript-eslint/no-unused-vars': [
+          'warn',
+          {vars: 'all', args: 'after-used', ignoreRestSiblings: true},
+        ],
         // 已有返回值推断不再显式申明
         '@typescript-eslint/explicit-module-boundary-types': 'off',
         // 不要求用 RegExp#exec 替换 String#match

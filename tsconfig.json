@@ -21,6 +21,6 @@
     "allowJs": true,
     "strict": true
   },
-  "include": ["packages/*/src"],
+  "include": ["packages/*/src", "packages/*/src/@types"],
   "exclude": ["node_modules", "examples", "website", "**/*.mjs", "*.js"]
 }
