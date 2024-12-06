@@ -1,0 +1,138 @@
+@import '../styles/var.less';
+
+.@{editor-theme-prefix}__image {
+  cursor: default;
+  display: inline-block;
+  position: relative;
+  user-select: none;
+}
+
+.@{editor-theme-prefix}__image img {
+  max-width: 100%;
+  cursor: default;
+}
+
+.@{editor-theme-prefix}__image img.focused {
+  outline: 2px solid rgb(60, 132, 244);
+  user-select: none;
+}
+
+.@{editor-theme-prefix}__image img.focused.draggable {
+  cursor: grab;
+}
+
+.@{editor-theme-prefix}__image img.focused.draggable:active {
+  cursor: grabbing;
+}
+
+.@{editor-theme-prefix}__image .imageResizer {
+  display: block;
+  width: 7px;
+  height: 7px;
+  position: absolute;
+  background-color: rgb(60, 132, 244);
+  border: 1px solid #fff;
+}
+
+.@{editor-theme-prefix}__image .imageResizer_n {
+  top: -6px;
+  left: 48%;
+  cursor: n-resize;
+}
+
+.@{editor-theme-prefix}__image .imageResizer_ne {
+  top: -6px;
+  right: -6px;
+  cursor: ne-resize;
+}
+
+.@{editor-theme-prefix}__image .imageResizer_e {
+  bottom: 48%;
+  right: -6px;
+  cursor: e-resize;
+}
+
+.@{editor-theme-prefix}__image .imageResizer_se {
+  bottom: -2px;
+  right: -6px;
+  cursor: nwse-resize;
+}
+
+.@{editor-theme-prefix}__image .imageResizer_s {
+  bottom: -2px;
+  left: 48%;
+  cursor: s-resize;
+}
+
+.@{editor-theme-prefix}__image .imageResizer_sw {
+  bottom: -2px;
+  left: -6px;
+  cursor: sw-resize;
+}
+
+.@{editor-theme-prefix}__image .imageResizer_w {
+  bottom: 48%;
+  left: -6px;
+  cursor: w-resize;
+}
+
+.@{editor-theme-prefix}__image .imageResizer_nw {
+  top: -6px;
+  left: -6px;
+  cursor: nw-resize;
+}
+
+.@{editor-theme-prefix}__inline-image {
+  cursor: default;
+  display: inline-block;
+  position: relative;
+  z-index: 1;
+}
+
+.@{editor-theme-prefix}__inline-image img {
+  max-width: 100%;
+  cursor: default;
+}
+
+.@{editor-theme-prefix}__inline-image img.focused {
+  outline: 2px solid rgb(60, 132, 244);
+}
+
+.@{editor-theme-prefix}__inline-image img.focused.draggable {
+  cursor: grab;
+}
+
+.@{editor-theme-prefix}__inline-image img.focused.draggable:active {
+  cursor: grabbing;
+}
+
+.@{editor-theme-prefix}__inline-image
+  .image-caption-container
+  .tree-view-output {
+  margin: 0;
+  border-radius: 0;
+}
+
+.@{editor-theme-prefix}__inline-image.position-full {
+  margin: 1em 0 1em 0;
+}
+
+.@{editor-theme-prefix}__inline-image.position-left {
+  float: left;
+  width: 50%;
+  margin: 1em 1em 0 0;
+}
+
+.@{editor-theme-prefix}__inline-image.position-right {
+  float: right;
+  width: 50%;
+  margin: 1em 0 0 1em;
+}
+
+.@{editor-theme-prefix}__inline-image .image-caption-container {
+  display: block;
+  background-color: #f4f4f4;
+  min-width: 100%;
+  color: #000;
+  overflow: hidden;
+}
