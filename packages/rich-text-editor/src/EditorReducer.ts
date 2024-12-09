@@ -1,55 +1,55 @@
-import {Reducer} from 'react'
-import {CommandType} from './config/EditorCommand'
+import { Reducer } from 'react';
+import { CommandType } from './config/EditorCommand';
 
-export type ListenerType = (params: Record<string, unknown>) => void
+export type ListenerType = (params: Record<string, unknown>) => void;
 
-export type CommandStateType = Map<CommandType, Set<ListenerType>>
+export type CommandStateType = Map<CommandType, Set<ListenerType>>;
 
 export interface RegisterActionType {
-  type: 'REGISTER'
+  type: 'REGISTER';
   payload: {
-    command: CommandType
-    listener: ListenerType
-  }
+    command: CommandType;
+    listener: ListenerType;
+  };
 }
 
 export interface DispatchActionType {
-  type: 'DISPATCH'
+  type: 'DISPATCH';
   payload: {
-    command: CommandType
-    params: Record<string, unknown>
-  }
+    command: CommandType;
+    params: Record<string, unknown>;
+  };
 }
 
-export type CommandActionsType = RegisterActionType | DispatchActionType
+export type CommandActionsType = RegisterActionType | DispatchActionType;
 
 export const CommandReducer: Reducer<CommandStateType, CommandActionsType> = (
   state,
   action,
 ): CommandStateType => {
-  const {command} = action.payload
+  const { command } = action.payload;
 
-  const result: CommandStateType = new Map(state)
+  const result: CommandStateType = new Map(state);
 
   switch (action.type) {
     case 'REGISTER':
       // 注册 command
       if (!result.has(command)) {
-        result.set(command, new Set())
+        result.set(command, new Set());
       }
 
-      result.get(command)?.add(action.payload.listener)
+      result.get(command)?.add(action.payload.listener);
 
-      return result
+      return result;
     case 'DISPATCH':
       // 触发回调
       if (!result.has(command)) {
-        return state
+        return state;
       }
 
-      result.get(command)?.forEach(listener => listener(action.payload.params))
-      return state
+      result.get(command)?.forEach(listener => listener(action.payload.params));
+      return state;
     default:
-      return state
+      return state;
   }
-}
+};

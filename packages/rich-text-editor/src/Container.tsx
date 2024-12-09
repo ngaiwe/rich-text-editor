@@ -1,66 +1,65 @@
-import {AutoFocusPlugin} from '@lexical/react/LexicalAutoFocusPlugin'
-import {ClearEditorPlugin} from '@lexical/react/LexicalClearEditorPlugin'
-import LexicalErrorBoundary from '@lexical/react/LexicalErrorBoundary'
-import {HistoryPlugin} from '@lexical/react/LexicalHistoryPlugin'
-import {ListPlugin} from '@lexical/react/LexicalListPlugin'
-import {OnChangePlugin} from '@lexical/react/LexicalOnChangePlugin'
-import {RichTextPlugin} from '@lexical/react/LexicalRichTextPlugin'
-import {TablePlugin} from '@lexical/react/LexicalTablePlugin'
-import {useCallback, useContext, useEffect} from 'react'
+import { AutoFocusPlugin } from '@lexical/react/LexicalAutoFocusPlugin';
+import { ClearEditorPlugin } from '@lexical/react/LexicalClearEditorPlugin';
+import LexicalErrorBoundary from '@lexical/react/LexicalErrorBoundary';
+import { HistoryPlugin } from '@lexical/react/LexicalHistoryPlugin';
+import { ListPlugin } from '@lexical/react/LexicalListPlugin';
+import { OnChangePlugin } from '@lexical/react/LexicalOnChangePlugin';
+import { RichTextPlugin } from '@lexical/react/LexicalRichTextPlugin';
+import { TablePlugin } from '@lexical/react/LexicalTablePlugin';
+import { useCallback, useContext, useEffect } from 'react';
 
-import TableCellResizerPlugin from './plugins/TableCellResizerPlugin'
-import ToolbarPlugin from './plugins/ToolbarPlugin'
-import UploadImagePlugin from './plugins/UploadImagePlugin'
+import TableCellResizerPlugin from './plugins/TableCellResizerPlugin';
+import ToolbarPlugin from './plugins/ToolbarPlugin';
+import UploadImagePlugin from './plugins/UploadImagePlugin';
 
-import ContentEditable from './ui/ContentEditable'
+import ContentEditable from './ui/ContentEditable';
 
-import {useLexicalComposerContext} from '@lexical/react/LexicalComposerContext'
-import {EditorState, LexicalEditor} from 'lexical'
-import {EDITOR_CHANGE_COMMAND} from './config/EditorCommand'
-import {EMPTY_HTMLSTRING} from './config/GlobalConstant'
-import {PluginHandle} from './config/PluginsConfig'
-import {EditorContext} from './context/EditorContext'
-import {EditorConfigType} from './Editor'
-import {ListenerType} from './EditorReducer'
-import {EditorParser} from './parser'
-import ContextMenuPlugin from './plugins/ContextMenuPlugin'
-import {TabIndentationPlugin} from './plugins/TabIndentationPlugin'
-import TableModalPlugin from './plugins/TableModalPlugin'
-import {addClassName} from './utils/className'
+import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext';
+import { EditorState, LexicalEditor } from 'lexical';
+import { EDITOR_CHANGE_COMMAND } from './config/EditorCommand';
+import { EMPTY_HTMLSTRING } from './config/GlobalConstant';
+import { PluginHandle } from './config/PluginsConfig';
+import { EditorContext } from './context/EditorContext';
+import { EditorConfigType } from './Editor';
+import { ListenerType } from './EditorReducer';
+import { EditorParser } from './parser';
+import ContextMenuPlugin from './plugins/ContextMenuPlugin';
+import { TabIndentationPlugin } from './plugins/TabIndentationPlugin';
+import TableModalPlugin from './plugins/TableModalPlugin';
+import { addClassName } from './utils/className';
 
-const classNameTag = 'editor'
+const classNameTag = 'editor';
 
 export interface EditorChangeParamsType {
-  htmlString: string
+  htmlString: string;
 }
 
 interface EditorPropsType {
-  config?: EditorConfigType
-  onChange?: ListenerType
+  config?: EditorConfigType;
+  onChange?: ListenerType;
 }
 
 const EditorContainer = (props: EditorPropsType) => {
-  const {config} = props
-  const [editor] = useLexicalComposerContext()
-  const {dispatchCommandsMap} = useContext(EditorContext)
+  const { config } = props;
+  const [editor] = useLexicalComposerContext();
+  const { dispatchCommandsMap } = useContext(EditorContext);
 
   useEffect(() => {
-    editor.setEditable(config?.editable ?? true)
-  }, [editor, config])
+    editor.setEditable(config?.editable ?? true);
+  }, [editor, config]);
 
   const onChange = useCallback(
     (editorState: EditorState, editor: LexicalEditor) => {
       editor.update(() => {
         if (!dispatchCommandsMap) {
-          return
+          return;
         }
 
-        const htmlString =
-          EditorParser.getInstance().parserLexicalDomTreeToHTMLString(editor)
+        const htmlString = EditorParser.getInstance().parserLexicalDomTreeToHTMLString(editor);
 
         const params = {
           htmlString: htmlString === EMPTY_HTMLSTRING ? '' : htmlString,
-        }
+        };
 
         dispatchCommandsMap({
           type: 'DISPATCH',
@@ -68,13 +67,13 @@ const EditorContainer = (props: EditorPropsType) => {
             command: EDITOR_CHANGE_COMMAND,
             params: params,
           },
-        })
+        });
 
-        props?.onChange?.(params)
-      })
+        props?.onChange?.(params);
+      });
     },
-    [props?.onChange],
-  )
+    [dispatchCommandsMap, props],
+  );
 
   return (
     <>
@@ -105,9 +104,7 @@ const EditorContainer = (props: EditorPropsType) => {
       <TableCellResizerPlugin />
 
       {/* 图片插件 */}
-      {PluginHandle.hasUploadImagePlugin(config?.plugins) && (
-        <UploadImagePlugin />
-      )}
+      {PluginHandle.hasUploadImagePlugin(config?.plugins) && <UploadImagePlugin />}
 
       {/* change 插件 */}
       <OnChangePlugin onChange={onChange} />
@@ -115,7 +112,7 @@ const EditorContainer = (props: EditorPropsType) => {
       {/* 右键菜单插件 */}
       <ContextMenuPlugin />
     </>
-  )
-}
+  );
+};
 
-export {EditorContainer}
+export { EditorContainer };
