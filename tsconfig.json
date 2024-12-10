@@ -1,6 +1,9 @@
 {
   "compilerOptions": {
     "baseUrl": ".",
+    "paths": {
+      "@editor": ["./packages/rich-text-editor/src/"]
+    },
     "removeComments": true,
     "declaration": true,
     "allowUnreachableCode": false,

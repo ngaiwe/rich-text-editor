@@ -1,31 +1,31 @@
-import alias from '@rollup/plugin-alias'
-import commonjs from '@rollup/plugin-commonjs'
-import nodeResolve from '@rollup/plugin-node-resolve'
-import svgr from '@svgr/rollup'
-import path from 'path'
-import type {OutputOptions, RollupOptions} from 'rollup'
-import dts from 'rollup-plugin-dts'
-import esbuild from 'rollup-plugin-esbuild'
-import ignoreImport from 'rollup-plugin-ignore-import'
-import postcss from 'rollup-plugin-postcss'
-import pkg from './package.json'
-import json from '@rollup/plugin-json'
+import alias from '@rollup/plugin-alias';
+import commonjs from '@rollup/plugin-commonjs';
+import nodeResolve from '@rollup/plugin-node-resolve';
+import svgr from '@svgr/rollup';
+import path from 'path';
+import type { OutputOptions, RollupOptions } from 'rollup';
+import dts from 'rollup-plugin-dts';
+import esbuild from 'rollup-plugin-esbuild';
+import ignoreImport from 'rollup-plugin-ignore-import';
+import postcss from 'rollup-plugin-postcss';
+import pkg from './package.json';
+import json from '@rollup/plugin-json';
 
-const generateDts = Boolean(process.env.DTS)
+const generateDts = Boolean(process.env.DTS);
 
-const resolveRoot = path.resolve.bind(null, __dirname)
+const resolveRoot = path.resolve.bind(null, __dirname);
 
 const outputOptions: OutputOptions = {
   exports: 'named',
   preserveModules: true,
   preserveModulesRoot: 'src',
-}
+};
 
-const externalPackages = [...Object.keys(pkg.peerDependencies || {})]
+const externalPackages = [...Object.keys(pkg.peerDependencies || {})];
 
 const regexesOfPackages = externalPackages.map(
   packageName => new RegExp(`^${packageName}(\\/.*)?`),
-)
+);
 
 const config: RollupOptions = {
   input: './src/index.ts',
@@ -34,7 +34,7 @@ const config: RollupOptions = {
     commonjs(),
     alias({
       entries: {
-        '@': resolveRoot('./src'),
+        '@editor': resolveRoot('./src'),
       },
     }),
     nodeResolve({
@@ -87,6 +87,6 @@ const config: RollupOptions = {
         },
       ],
   external: [...regexesOfPackages],
-}
+};
 
-export default config
+export default config;
