@@ -1,7 +1,7 @@
-import {FunctionComponent, isValidElement} from 'react'
-import {ValueOf} from '../@types/global'
+import { FunctionComponent, isValidElement } from 'react';
+import { ValueOf } from '../@types/global';
 
-import {Element} from 'domhandler'
+import { Element } from 'domhandler';
 
 // 特殊标签属性枚举
 export enum ZhTagTypeEnum {
@@ -13,43 +13,34 @@ export const ReactComponentMapping = {
   [ZhTagTypeEnum.replaceBlank]: ZhTagTypeEnum.replaceBlank,
   [ZhTagTypeEnum.insertBlank]: ZhTagTypeEnum.insertBlank,
   reactImage: 'reactImage',
-}
+};
 
-type ReactComponentMappingKeyType = keyof typeof ReactComponentMapping
+type ReactComponentMappingKeyType = keyof typeof ReactComponentMapping;
 
-type ReactComponentMappingType = Record<
-  ValueOf<typeof ReactComponentMapping>,
-  FunctionComponent
->
+type ReactComponentMappingType = Record<ValueOf<typeof ReactComponentMapping>, FunctionComponent>;
 
 // 判断是否是 react component
 export const isReactComponent = (element: unknown) => {
   if (!element) {
-    return false
+    return false;
   }
 
-  return (
-    isValidElement(element) || (typeof element === 'function' && element?.name)
-  )
-}
+  return isValidElement(element) || (typeof element === 'function' && element?.name);
+};
 
 // 挖空
 const doHollowBlankStrategy = (
   zhihuTagType: string,
   reactComponentMapping: ReactComponentMappingType,
 ) => {
-  if (
-    zhihuTagType === ZhTagTypeEnum.replaceBlank ||
-    zhihuTagType === 'hollowBlank'
-  ) {
-    const replaceBlank =
-      reactComponentMapping[ReactComponentMapping.replaceBlank]
+  if (zhihuTagType === ZhTagTypeEnum.replaceBlank || zhihuTagType === 'hollowBlank') {
+    const replaceBlank = reactComponentMapping[ReactComponentMapping.replaceBlank];
 
-    return isReactComponent(replaceBlank) ? replaceBlank : undefined
+    return isReactComponent(replaceBlank) ? replaceBlank : undefined;
   }
 
-  return doInsertBlankStrategy(zhihuTagType, reactComponentMapping)
-}
+  return doInsertBlankStrategy(zhihuTagType, reactComponentMapping);
+};
 
 // 插空
 const doInsertBlankStrategy = (
@@ -57,32 +48,29 @@ const doInsertBlankStrategy = (
   reactComponentMapping: ReactComponentMappingType,
 ) => {
   if (zhihuTagType === ZhTagTypeEnum.insertBlank) {
-    const insertBlank = reactComponentMapping[ReactComponentMapping.insertBlank]
+    const insertBlank = reactComponentMapping[ReactComponentMapping.insertBlank];
 
-    return isReactComponent(insertBlank) ? insertBlank : undefined
+    return isReactComponent(insertBlank) ? insertBlank : undefined;
   }
 
-  return doDefaultStrategy()
-}
+  return doDefaultStrategy();
+};
 
 // 图片
-const doReactImageStrategy = (
-  child: Element,
-  reactComponentMapping: ReactComponentMappingType,
-) => {
-  const reactImage = reactComponentMapping[ReactComponentMapping.reactImage]
+const doReactImageStrategy = (child: Element, reactComponentMapping: ReactComponentMappingType) => {
+  const reactImage = reactComponentMapping[ReactComponentMapping.reactImage];
 
   if (reactImage && isReactComponent(reactImage) && child.name === 'img') {
-    return reactImage
+    return reactImage;
   }
 
-  return doDefaultStrategy()
-}
+  return doDefaultStrategy();
+};
 
 // 默认
 const doDefaultStrategy = () => {
-  return undefined
-}
+  return undefined;
+};
 
 // 策略入口
 const doStrategy = (
@@ -91,10 +79,10 @@ const doStrategy = (
   reactComponentMapping: Record<string, FunctionComponent>,
 ) => {
   if (zhihuTagType) {
-    return doHollowBlankStrategy(zhihuTagType, reactComponentMapping)
+    return doHollowBlankStrategy(zhihuTagType, reactComponentMapping);
   }
 
-  return doReactImageStrategy(child, reactComponentMapping)
-}
+  return doReactImageStrategy(child, reactComponentMapping);
+};
 
-export {ReactComponentMappingType, ReactComponentMappingKeyType, doStrategy}
+export { ReactComponentMappingType, ReactComponentMappingKeyType, doStrategy };

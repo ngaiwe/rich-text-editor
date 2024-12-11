@@ -1,8 +1,8 @@
-import {mergeRegister} from '@lexical/utils'
-import './ReplaceBlank.less'
+import { mergeRegister } from '@lexical/utils';
+import './ReplaceBlank.less';
 
-import {useLexicalComposerContext} from '@lexical/react/LexicalComposerContext'
-import {useLexicalNodeSelection} from '@lexical/react/useLexicalNodeSelection'
+import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext';
+import { useLexicalNodeSelection } from '@lexical/react/useLexicalNodeSelection';
 import {
   $getNodeByKey,
   $getSelection,
@@ -11,10 +11,10 @@ import {
   CUT_COMMAND,
   KEY_BACKSPACE_COMMAND,
   KEY_DELETE_COMMAND,
-} from 'lexical'
-import {useCallback, useEffect, useRef} from 'react'
-import {$isReplaceBlankNode} from '.'
-import {REPLACE_BLANK_CHANGE_COMMAND} from '../../config/GlobalCommand'
+} from 'lexical';
+import { useCallback, useEffect, useRef } from 'react';
+import { $isReplaceBlankNode } from '.';
+import { REPLACE_BLANK_CHANGE_COMMAND } from '../../config/GlobalCommand';
 
 export enum ReplaceBlankNodeHandleEnum {
   'ADD' = 'ADD',
@@ -22,28 +22,24 @@ export enum ReplaceBlankNodeHandleEnum {
 }
 
 export interface ReplaceBlankComponentPropsType {
-  nodeKey: string
-  text: string
+  nodeKey: string;
+  text: string;
 }
 
-const ReplaceBlankComponent = ({
-  nodeKey,
-  text,
-}: ReplaceBlankComponentPropsType) => {
-  const [editor] = useLexicalComposerContext()
+const ReplaceBlankComponent = ({ nodeKey, text }: ReplaceBlankComponentPropsType) => {
+  const [editor] = useLexicalComposerContext();
 
-  const blankRef = useRef<null | HTMLSpanElement>(null)
-  const [isSelected, setSelected, clearSelection] =
-    useLexicalNodeSelection(nodeKey)
+  const blankRef = useRef<null | HTMLSpanElement>(null);
+  const [isSelected, setSelected, clearSelection] = useLexicalNodeSelection(nodeKey);
 
   useEffect(() => {
-    editor.dispatchCommand(REPLACE_BLANK_CHANGE_COMMAND, undefined)
-  }, [editor, nodeKey, text])
+    editor.dispatchCommand(REPLACE_BLANK_CHANGE_COMMAND, undefined);
+  }, [editor, nodeKey, text]);
 
   const onDelete = useCallback(
     (payload: KeyboardEvent) => {
-      const event: KeyboardEvent = payload
-      event.preventDefault()
+      const event: KeyboardEvent = payload;
+      event.preventDefault();
 
       if (
         isSelected &&
@@ -52,33 +48,33 @@ const ReplaceBlankComponent = ({
           ?.find(node => node.getKey() === nodeKey)
       ) {
         editor.update(() => {
-          const node = $getNodeByKey(nodeKey)
+          const node = $getNodeByKey(nodeKey);
 
           if ($isReplaceBlankNode(node)) {
-            node.remove()
+            node.remove();
           }
 
-          editor.dispatchCommand(REPLACE_BLANK_CHANGE_COMMAND, undefined)
-        })
+          editor.dispatchCommand(REPLACE_BLANK_CHANGE_COMMAND, undefined);
+        });
       } else {
         editor.update(() => {
-          const node = $getNodeByKey(nodeKey)
+          const node = $getNodeByKey(nodeKey);
 
           if (!node?.isAttached() && node?.isDirty()) {
-            editor.dispatchCommand(REPLACE_BLANK_CHANGE_COMMAND, undefined)
+            editor.dispatchCommand(REPLACE_BLANK_CHANGE_COMMAND, undefined);
           }
-        })
+        });
       }
 
-      return false
+      return false;
     },
-    [editor, isSelected, nodeKey]
-  )
+    [editor, isSelected, nodeKey],
+  );
 
   const onCut = useCallback(
     (payload: KeyboardEvent) => {
-      const event: KeyboardEvent = payload
-      event.preventDefault()
+      const event: KeyboardEvent = payload;
+      event.preventDefault();
 
       if (
         isSelected &&
@@ -87,62 +83,51 @@ const ReplaceBlankComponent = ({
           ?.find(node => node.getKey() === nodeKey)
       ) {
         editor.update(() => {
-          const node = $getNodeByKey(nodeKey)
+          const node = $getNodeByKey(nodeKey);
 
           if ($isReplaceBlankNode(node)) {
-            node.markDirty()
+            node.markDirty();
           }
 
-          editor.dispatchCommand(REPLACE_BLANK_CHANGE_COMMAND, undefined)
-        })
+          editor.dispatchCommand(REPLACE_BLANK_CHANGE_COMMAND, undefined);
+        });
       }
-      return false
+      return false;
     },
-    [editor, isSelected, nodeKey]
-  )
+    [editor, isSelected, nodeKey],
+  );
 
   useEffect(() => {
     return mergeRegister(
       editor.registerCommand<MouseEvent>(
         CLICK_COMMAND,
         payload => {
-          const event = payload
+          const event = payload;
           if (event.target === blankRef.current) {
             if (event.shiftKey) {
-              setSelected(!isSelected)
+              setSelected(!isSelected);
             } else {
-              clearSelection()
-              setSelected(true)
+              clearSelection();
+              setSelected(true);
             }
-            return true
+            return true;
           }
 
-          return false
+          return false;
         },
-        COMMAND_PRIORITY_LOW
+        COMMAND_PRIORITY_LOW,
       ),
-      editor.registerCommand(
-        KEY_DELETE_COMMAND,
-        onDelete,
-        COMMAND_PRIORITY_LOW
-      ),
-      editor.registerCommand(
-        KEY_BACKSPACE_COMMAND,
-        onDelete,
-        COMMAND_PRIORITY_LOW
-      ),
-      editor.registerCommand(CUT_COMMAND, onCut, COMMAND_PRIORITY_LOW)
-    )
-  }, [clearSelection, editor, isSelected, onCut, onDelete, setSelected])
+      editor.registerCommand(KEY_DELETE_COMMAND, onDelete, COMMAND_PRIORITY_LOW),
+      editor.registerCommand(KEY_BACKSPACE_COMMAND, onDelete, COMMAND_PRIORITY_LOW),
+      editor.registerCommand(CUT_COMMAND, onCut, COMMAND_PRIORITY_LOW),
+    );
+  }, [clearSelection, editor, isSelected, onCut, onDelete, setSelected]);
 
   return (
-    <span
-      ref={blankRef}
-      className={`replaceBlank ${isSelected ? 'focused' : ''}`}
-    >
+    <span ref={blankRef} className={`replaceBlank ${isSelected ? 'focused' : ''}`}>
       {text}
     </span>
-  )
-}
+  );
+};
 
-export default ReplaceBlankComponent
+export default ReplaceBlankComponent;

@@ -31,7 +31,7 @@ module.exports = {
       { vars: 'all', args: 'after-used', ignoreRestSiblings: true },
     ],
     'max-lines': ['error', { max: 500 }],
-    'max-lines-per-function': ['error', { max: 200 }],
+    'max-lines-per-function': 'off',
   },
   settings: {
     react: {

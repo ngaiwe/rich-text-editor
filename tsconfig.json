@@ -1,10 +1,5 @@
 {
   "compilerOptions": {
-    "baseUrl": ".",
-    "paths": {
-      "@editor": ["./packages/rich-text-editor/src/"]
-    },
-    "removeComments": true,
     "declaration": true,
     "allowUnreachableCode": false,
     "allowUnusedLabels": false,
@@ -13,17 +8,24 @@
     "jsx": "react-jsx",
     "lib": ["ESNext", "DOM"],
     "module": "ESNext",
-    "target": "ES6",
-    "moduleResolution": "bundler",
+    "target": "ESNext",
+    "moduleResolution": "node",
     "noFallthroughCasesInSwitch": true,
     "noImplicitReturns": true,
     "noImplicitUseStrict": false,
     "noStrictGenericChecks": false,
-    "resolveJsonModule": true,
     "skipLibCheck": true,
     "allowJs": true,
-    "strict": true
+    "strict": true,
+    "sourceMap": false,
+    "allowSyntheticDefaultImports": true,
+    "noUnusedLocals": true,
+    "strictNullChecks": true,
+    "noImplicitAny": true,
+    "removeComments": true,
+    "resolveJsonModule": true,
+    "noEmitOnError": true,
+    "emitDeclarationOnly": true
   },
-  "include": ["packages/*/src", "packages/*/src/@types"],
   "exclude": ["node_modules", "examples", "website", "**/*.mjs", "*.js"]
 }

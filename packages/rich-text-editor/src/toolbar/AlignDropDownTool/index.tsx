@@ -1,6 +1,6 @@
 // 工作栏 - 排版控件(居中、左右对齐)
-import {useLexicalComposerContext} from '@lexical/react/LexicalComposerContext'
-import {Select} from 'antd'
+import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext';
+import { Select } from 'antd';
 import {
   $getSelection,
   $isNodeSelection,
@@ -9,58 +9,49 @@ import {
   ElementFormatType,
   FORMAT_ELEMENT_COMMAND,
   SELECTION_CHANGE_COMMAND,
-} from 'lexical'
-import {useCallback, useEffect, useState} from 'react'
-import {getSelectedNode} from '../../utils/getSelectedNode'
-import {AlignType, DEFAULT_ALIGN_TYPE, OPTIONS} from './config'
+} from 'lexical';
+import { useCallback, useEffect, useState } from 'react';
+import { getSelectedNode } from '../../utils/getSelectedNode';
+import { AlignType, DEFAULT_ALIGN_TYPE, OPTIONS } from './config';
 
 const AlignDropDownTool = () => {
-  const [editor] = useLexicalComposerContext()
+  const [editor] = useLexicalComposerContext();
 
-  const [alignValue, setAlignValue] =
-    useState<ElementFormatType>(DEFAULT_ALIGN_TYPE)
+  const [alignValue, setAlignValue] = useState<ElementFormatType>(DEFAULT_ALIGN_TYPE);
 
   const changeCallback = useCallback(
     (value: ElementFormatType) => {
-      editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, value)
+      editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, value);
 
-      setAlignValue(value)
+      setAlignValue(value);
     },
-    [editor]
-  )
+    [editor],
+  );
 
   useEffect(() => {
     return editor.registerCommand(
       SELECTION_CHANGE_COMMAND,
       () => {
-        const selection = $getSelection()
+        const selection = $getSelection();
 
         if ($isRangeSelection(selection)) {
-          const node = getSelectedNode(selection)
-          const parent = node.getParent()
-          const alignType = parent?.getFormatType()
+          const node = getSelectedNode(selection);
+          const parent = node.getParent();
+          const alignType = parent?.getFormatType();
 
-          setAlignValue(
-            alignType && AlignType.has(alignType)
-              ? alignType
-              : DEFAULT_ALIGN_TYPE
-          )
+          setAlignValue(alignType && AlignType.has(alignType) ? alignType : DEFAULT_ALIGN_TYPE);
         } else if ($isNodeSelection(selection)) {
-          const nodes = selection.getNodes()
-          const parent = nodes?.[0].getTopLevelElementOrThrow?.()
-          const alignType = parent?.getFormatType?.()
+          const nodes = selection.getNodes();
+          const parent = nodes?.[0].getTopLevelElementOrThrow?.();
+          const alignType = parent?.getFormatType?.();
 
-          setAlignValue(
-            alignType && AlignType.has(alignType)
-              ? alignType
-              : DEFAULT_ALIGN_TYPE
-          )
+          setAlignValue(alignType && AlignType.has(alignType) ? alignType : DEFAULT_ALIGN_TYPE);
         }
-        return false
+        return false;
       },
-      COMMAND_PRIORITY_CRITICAL
-    )
-  }, [editor])
+      COMMAND_PRIORITY_CRITICAL,
+    );
+  }, [editor]);
 
   return (
     <div>
@@ -69,14 +60,14 @@ const AlignDropDownTool = () => {
         defaultValue={alignValue}
         value={alignValue}
         defaultActiveFirstOption
-        style={{width: 120}}
+        style={{ width: 120 }}
         bordered={false}
         disabled={!editor.isEditable()}
         options={OPTIONS}
         onChange={changeCallback}
       />
     </div>
-  )
-}
+  );
+};
 
-export {AlignDropDownTool}
+export { AlignDropDownTool };

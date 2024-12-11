@@ -1,75 +1,73 @@
 // 工作栏 - 插入控件
-import {Col, Divider, Select} from 'antd'
-import {useCallback, useEffect, useState} from 'react'
+import { Col, Divider, Select } from 'antd';
+import { useCallback, useEffect, useState } from 'react';
 
-import {useLexicalComposerContext} from '@lexical/react/LexicalComposerContext'
+import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext';
 
-import {mergeRegister} from '@lexical/utils'
-import {DefaultOptionType} from 'antd/es/select'
-import {COMMAND_PRIORITY_LOW, SELECTION_CHANGE_COMMAND} from 'lexical'
-import {DEFAULT_ANTD_COMPONENT_SIZE} from '../../config/AntdUiConfig'
+import { mergeRegister } from '@lexical/utils';
+import { DefaultOptionType } from 'antd/es/select';
+import { COMMAND_PRIORITY_LOW, SELECTION_CHANGE_COMMAND } from 'lexical';
+import { DEFAULT_ANTD_COMPONENT_SIZE } from '../../config/AntdUiConfig';
 import {
   EDU_INSERT_MATHJAX_MODAL_COMMAND,
   EDU_INSERT_TABLE_COMMAND,
   INSERT_BLANK_COMMAND,
   REPLACE_BLANK_COMMAND,
-} from '../../config/GlobalCommand'
-import {PluginsType} from '../../config/PluginsConfig'
-import {initInsertOptions, InsertTypeEnum} from './config'
-import {decision} from './decision'
+} from '../../config/GlobalCommand';
+import { PluginsType } from '../../config/PluginsConfig';
+import { initInsertOptions, InsertTypeEnum } from './config';
+import { decision } from './decision';
 
 interface InsertToolPropsType {
-  plugins?: PluginsType
+  plugins?: PluginsType;
 }
 
 const InsertTool = (props: InsertToolPropsType) => {
-  const {plugins} = props
-  const [editor] = useLexicalComposerContext()
+  const { plugins } = props;
+  const [editor] = useLexicalComposerContext();
 
-  const [value, setValue] = useState(InsertTypeEnum.none)
-  const [options, setOptions] = useState<DefaultOptionType[]>(() =>
-    initInsertOptions(plugins)
-  )
+  const [value, setValue] = useState(InsertTypeEnum.none);
+  const [options, setOptions] = useState<DefaultOptionType[]>(() => initInsertOptions(plugins));
 
   const changeCallback = useCallback(
     (value: InsertTypeEnum) => {
       switch (value) {
         case InsertTypeEnum.insertBlank:
-          editor.dispatchCommand(INSERT_BLANK_COMMAND, {})
-          break
+          editor.dispatchCommand(INSERT_BLANK_COMMAND, {});
+          break;
         case InsertTypeEnum.replaceBlank:
-          editor.dispatchCommand(REPLACE_BLANK_COMMAND, undefined)
-          break
+          editor.dispatchCommand(REPLACE_BLANK_COMMAND, undefined);
+          break;
         case InsertTypeEnum.table:
-          editor.dispatchCommand(EDU_INSERT_TABLE_COMMAND, {})
-          break
+          editor.dispatchCommand(EDU_INSERT_TABLE_COMMAND, {});
+          break;
         case InsertTypeEnum.mathJax:
-          editor.dispatchCommand(EDU_INSERT_MATHJAX_MODAL_COMMAND, {})
-          break
+          editor.dispatchCommand(EDU_INSERT_MATHJAX_MODAL_COMMAND, {});
+          break;
         default:
-          void null
+          void null;
       }
 
-      setValue(InsertTypeEnum.none)
+      setValue(InsertTypeEnum.none);
     },
-    [editor]
-  )
+    [editor],
+  );
 
   useEffect(() => {
     return mergeRegister(
       editor.registerCommand(
         SELECTION_CHANGE_COMMAND,
-        (_, activeEditor) => {
+        () => {
           setOptions(options => {
-            return decision(options)
-          })
+            return decision(options);
+          });
 
-          return false
+          return false;
         },
-        COMMAND_PRIORITY_LOW
-      )
-    )
-  }, [editor])
+        COMMAND_PRIORITY_LOW,
+      ),
+    );
+  }, [editor]);
 
   return options?.length ? (
     <>
@@ -82,7 +80,7 @@ const InsertTool = (props: InsertToolPropsType) => {
           value={value}
           defaultValue={value}
           defaultActiveFirstOption
-          style={{width: 100}}
+          style={{ width: 100 }}
           bordered={false}
           options={options}
           disabled={!editor.isEditable()}
@@ -92,7 +90,7 @@ const InsertTool = (props: InsertToolPropsType) => {
     </>
   ) : (
     <></>
-  )
-}
+  );
+};
 
-export {InsertTool}
+export { InsertTool };

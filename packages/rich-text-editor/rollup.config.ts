@@ -3,7 +3,6 @@ import commonjs from '@rollup/plugin-commonjs';
 import nodeResolve from '@rollup/plugin-node-resolve';
 import svgr from '@svgr/rollup';
 import path from 'path';
-import type { OutputOptions, RollupOptions } from 'rollup';
 import dts from 'rollup-plugin-dts';
 import esbuild from 'rollup-plugin-esbuild';
 import ignoreImport from 'rollup-plugin-ignore-import';
@@ -15,7 +14,7 @@ const generateDts = Boolean(process.env.DTS);
 
 const resolveRoot = path.resolve.bind(null, __dirname);
 
-const outputOptions: OutputOptions = {
+const outputOptions = {
   exports: 'named',
   preserveModules: true,
   preserveModulesRoot: 'src',
@@ -27,7 +26,7 @@ const regexesOfPackages = externalPackages.map(
   packageName => new RegExp(`^${packageName}(\\/.*)?`),
 );
 
-const config: RollupOptions = {
+const config = {
   input: './src/index.ts',
   plugins: [
     json(),

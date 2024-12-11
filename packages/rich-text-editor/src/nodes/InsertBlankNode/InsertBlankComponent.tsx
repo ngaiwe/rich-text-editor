@@ -1,6 +1,6 @@
-import {useLexicalComposerContext} from '@lexical/react/LexicalComposerContext'
-import {useLexicalNodeSelection} from '@lexical/react/useLexicalNodeSelection'
-import {mergeRegister} from '@lexical/utils'
+import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext';
+import { useLexicalNodeSelection } from '@lexical/react/useLexicalNodeSelection';
+import { mergeRegister } from '@lexical/utils';
 import {
   $getNodeByKey,
   $getSelection,
@@ -11,15 +11,15 @@ import {
   KEY_BACKSPACE_COMMAND,
   KEY_DELETE_COMMAND,
   NodeKey,
-} from 'lexical'
-import {useCallback, useEffect, useRef} from 'react'
+} from 'lexical';
+import { useCallback, useEffect, useRef } from 'react';
 
-import {$isInsertBlankNode} from '.'
+import { $isInsertBlankNode } from '.';
 import {
   InsertHandlePayloadTypeEnum,
   INSERT_BLANK_CHANGE_COMMAND,
-} from '../../config/GlobalCommand'
-import './InsertBlank.less'
+} from '../../config/GlobalCommand';
+import './InsertBlank.less';
 
 export enum InsertBlankNodeHandleEnum {
   'ADD' = 'ADD',
@@ -28,38 +28,34 @@ export enum InsertBlankNodeHandleEnum {
 
 export type InsertBlankNodeHandleType =
   | InsertBlankNodeHandleEnum.ADD
-  | InsertBlankNodeHandleEnum.REMOVE
+  | InsertBlankNodeHandleEnum.REMOVE;
 
 export interface InsertBlankHandlePayload {
-  nodeKey: string
-  status: InsertBlankNodeHandleType
+  nodeKey: string;
+  status: InsertBlankNodeHandleType;
 }
 
 export interface InsertBlankComponentPropsType {
-  nodeKey: NodeKey
-  index: number
+  nodeKey: NodeKey;
+  index: number;
 }
 
-const InsertBlankComponent = ({
-  nodeKey,
-  index,
-}: InsertBlankComponentPropsType) => {
-  const [editor] = useLexicalComposerContext()
+const InsertBlankComponent = ({ nodeKey, index }: InsertBlankComponentPropsType) => {
+  const [editor] = useLexicalComposerContext();
 
-  const blankRef = useRef<null | HTMLSpanElement>(null)
-  const [isSelected, setSelected, clearSelection] =
-    useLexicalNodeSelection(nodeKey)
+  const blankRef = useRef<null | HTMLSpanElement>(null);
+  const [isSelected, setSelected, clearSelection] = useLexicalNodeSelection(nodeKey);
 
   useEffect(() => {
     editor.dispatchCommand(INSERT_BLANK_CHANGE_COMMAND, {
       type: InsertHandlePayloadTypeEnum.ADD,
-    })
-  }, [editor, nodeKey])
+    });
+  }, [editor, nodeKey]);
 
   const onDelete = useCallback(
     (payload: KeyboardEvent) => {
-      const event: KeyboardEvent = payload
-      event.preventDefault()
+      const event: KeyboardEvent = payload;
+      event.preventDefault();
 
       // if (isSelected && $getSelection()?.getNodes()?.find(node => node.getKey() === nodeKey)) {
       //   editor.update(() => {
@@ -92,32 +88,32 @@ const InsertBlankComponent = ({
             ?.getNodes()
             ?.find(node => node.getKey() === nodeKey)
         ) {
-          const node = $getNodeByKey(nodeKey)
+          const node = $getNodeByKey(nodeKey);
           if ($isInsertBlankNode(node)) {
-            node.remove()
+            node.remove();
           }
           editor.dispatchCommand(INSERT_BLANK_CHANGE_COMMAND, {
             type: InsertHandlePayloadTypeEnum.REMOVE,
-          })
+          });
         } else {
-          const node = $getNodeByKey(nodeKey)
+          const node = $getNodeByKey(nodeKey);
           if (!node?.isAttached() && node?.isDirty()) {
             editor.dispatchCommand(INSERT_BLANK_CHANGE_COMMAND, {
               type: InsertHandlePayloadTypeEnum.REMOVE,
-            })
+            });
           }
         }
-      })
+      });
 
-      return false
+      return false;
     },
-    [editor, isSelected, nodeKey]
-  )
+    [editor, isSelected, nodeKey],
+  );
 
   const onCut = useCallback(
     (payload: KeyboardEvent) => {
-      const event: KeyboardEvent = payload
-      event.preventDefault()
+      const event: KeyboardEvent = payload;
+      event.preventDefault();
       // if (isSelected && $getSelection()?.getNodes()?.find(node => node.getKey() === nodeKey)) {
       //   editor.update(() => {
       //     const node = $getNodeByKey(nodeKey)
@@ -139,63 +135,52 @@ const InsertBlankComponent = ({
             ?.getNodes()
             ?.find(node => node.getKey() === nodeKey)
         ) {
-          const node = $getNodeByKey(nodeKey)
+          const node = $getNodeByKey(nodeKey);
           if ($isInsertBlankNode(node)) {
-            node.markDirty()
+            node.markDirty();
           }
           editor.dispatchCommand(INSERT_BLANK_CHANGE_COMMAND, {
             type: InsertHandlePayloadTypeEnum.CUT,
-          })
+          });
         }
-      })
+      });
 
-      return false
+      return false;
     },
-    [editor, isSelected, nodeKey]
-  )
+    [editor, isSelected, nodeKey],
+  );
 
   useEffect(() => {
     return mergeRegister(
       editor.registerCommand<MouseEvent>(
         CLICK_COMMAND,
         payload => {
-          const event = payload
+          const event = payload;
           if (event.target === blankRef.current) {
             if (event.shiftKey) {
-              setSelected(!isSelected)
+              setSelected(!isSelected);
             } else {
-              clearSelection()
-              setSelected(true)
+              clearSelection();
+              setSelected(true);
             }
-            return true
+            return true;
           }
 
-          return false
+          return false;
         },
-        COMMAND_PRIORITY_LOW
+        COMMAND_PRIORITY_LOW,
       ),
-      editor.registerCommand(
-        KEY_DELETE_COMMAND,
-        onDelete,
-        COMMAND_PRIORITY_LOW
-      ),
-      editor.registerCommand(
-        KEY_BACKSPACE_COMMAND,
-        onDelete,
-        COMMAND_PRIORITY_LOW
-      ),
-      editor.registerCommand(CUT_COMMAND, onCut, COMMAND_PRIORITY_HIGH)
-    )
-  }, [clearSelection, editor, isSelected, onCut, onDelete, setSelected])
+      editor.registerCommand(KEY_DELETE_COMMAND, onDelete, COMMAND_PRIORITY_LOW),
+      editor.registerCommand(KEY_BACKSPACE_COMMAND, onDelete, COMMAND_PRIORITY_LOW),
+      editor.registerCommand(CUT_COMMAND, onCut, COMMAND_PRIORITY_HIGH),
+    );
+  }, [clearSelection, editor, isSelected, onCut, onDelete, setSelected]);
 
   return (
-    <span
-      ref={blankRef}
-      className={`insertBlank ${isSelected ? 'focused' : ''}`}
-    >
+    <span ref={blankRef} className={`insertBlank ${isSelected ? 'focused' : ''}`}>
       {index >= 0 ? index + 1 : ''}
     </span>
-  )
-}
+  );
+};
 
-export default InsertBlankComponent
+export default InsertBlankComponent;

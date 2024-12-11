@@ -1,115 +1,99 @@
 // 工作栏 - 颜色选择空间
-import {BgColorsOutlined, FontColorsOutlined} from '@ant-design/icons'
-import {useLexicalComposerContext} from '@lexical/react/LexicalComposerContext'
-import {
-  $getSelectionStyleValueForProperty,
-  $patchStyleText,
-} from '@lexical/selection'
-import {ColorPicker, ColorPickerProps, Space} from 'antd'
-import {Color} from 'antd/es/color-picker/color'
+import { BgColorsOutlined, FontColorsOutlined } from '@ant-design/icons';
+import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext';
+import { $getSelectionStyleValueForProperty, $patchStyleText } from '@lexical/selection';
+import { ColorPicker, ColorPickerProps, Space } from 'antd';
+import type { Color } from 'antd/es/color-picker';
 import {
   $getSelection,
   $isRangeSelection,
   COMMAND_PRIORITY_CRITICAL,
   SELECTION_CHANGE_COMMAND,
-} from 'lexical'
-import {useCallback, useEffect, useMemo, useState} from 'react'
-import {StorageUtils, STORAGE_KEY_ENUM} from '../../utils/localStorage'
-import {ColorDropDownMap, ColorDropDownType, RecommendedColor} from './config'
+} from 'lexical';
+import { useCallback, useEffect, useMemo, useState } from 'react';
+import { StorageUtils, STORAGE_KEY_ENUM } from '../../utils/localStorage';
+import { ColorDropDownMap, ColorDropDownType, RecommendedColor } from './config';
 
 export interface ColorDropDownToolPropsType {
-  type: ColorDropDownType
+  type: ColorDropDownType;
 }
 
 export const ColorDropDownTool = (props: ColorDropDownToolPropsType) => {
-  const [editor] = useLexicalComposerContext()
-  const [activeEditor, setActiveEditor] = useState(editor)
+  const [editor] = useLexicalComposerContext();
+  const [activeEditor, setActiveEditor] = useState(editor);
 
-  const {allowClear, disabledAlpha, defaultColor, styleKey} = useMemo(
+  const { allowClear, disabledAlpha, defaultColor, styleKey } = useMemo(
     () => ColorDropDownMap[props.type],
-    [props.type]
-  )
+    [props.type],
+  );
 
   // 获取 storage key
   const storageKey = useMemo(() => {
     switch (props.type) {
       case 'fontColor':
-        return STORAGE_KEY_ENUM.USER_USED_FONTCOLOR
+        return STORAGE_KEY_ENUM.USER_USED_FONTCOLOR;
       case 'fontBdColor':
-        return STORAGE_KEY_ENUM.USER_USED_FONTBDCOLOR
+        return STORAGE_KEY_ENUM.USER_USED_FONTBDCOLOR;
       default:
-        return undefined
+        return undefined;
     }
-  }, [props.type])
+  }, [props.type]);
 
-  const [color, setColor] = useState<ColorPickerProps['value']>(defaultColor)
+  const [color, setColor] = useState<ColorPickerProps['value']>(defaultColor);
 
   const onColorChange = useCallback(
     (color: Color) => {
-      setColor(color)
+      setColor(color);
 
       StorageUtils.getInstance().setUserUsedColor({
         color: color.toHexString(),
         type: storageKey ?? '',
-      })
+      });
 
       activeEditor.update(() => {
-        const selection = $getSelection()
+        const selection = $getSelection();
         if ($isRangeSelection(selection)) {
           $patchStyleText(selection, {
             [styleKey]: color.toHexString(),
-          })
+          });
         }
-      })
+      });
     },
-    [activeEditor, storageKey, styleKey]
-  )
+    [activeEditor, storageKey, styleKey],
+  );
 
   const userUsedColors = useMemo<string[]>(() => {
-    return (
-      (storageKey && StorageUtils.getInstance().getUserUsedColor(storageKey)) ??
-      []
-    )
+    return (storageKey && StorageUtils.getInstance().getUserUsedColor(storageKey)) ?? [];
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [storageKey, color])
+  }, [storageKey, color]);
 
-  const updateToolbar = useCallback(() => {
-    const selection = $getSelection()
+  const updateToolbar = useCallback((): void => {
+    const selection = $getSelection();
 
     if (!$isRangeSelection(selection)) {
-      return false
+      return;
     }
 
-    const styleValue = $getSelectionStyleValueForProperty(selection, styleKey)
+    const styleValue = $getSelectionStyleValueForProperty(selection, styleKey);
 
-    setColor(
-      $getSelectionStyleValueForProperty(
-        selection,
-        styleKey,
-        styleValue || defaultColor
-      )
-    )
-  }, [defaultColor, styleKey])
+    setColor($getSelectionStyleValueForProperty(selection, styleKey, styleValue || defaultColor));
+  }, [defaultColor, styleKey]);
 
   useEffect(() => {
     return editor.registerCommand(
       SELECTION_CHANGE_COMMAND,
       (payload, activeEditor) => {
-        updateToolbar()
-        setActiveEditor(activeEditor)
-        return false
+        updateToolbar();
+        setActiveEditor(activeEditor);
+        return false;
       },
-      COMMAND_PRIORITY_CRITICAL
-    )
-  }, [editor, updateToolbar])
+      COMMAND_PRIORITY_CRITICAL,
+    );
+  }, [editor, updateToolbar]);
 
   return (
     <Space align="center">
-      {props.type === 'fontColor' ? (
-        <FontColorsOutlined />
-      ) : (
-        <BgColorsOutlined />
-      )}
+      {props.type === 'fontColor' ? <FontColorsOutlined /> : <BgColorsOutlined />}
       <ColorPicker
         allowClear={allowClear}
         disabledAlpha={disabledAlpha}
@@ -128,5 +112,5 @@ export const ColorDropDownTool = (props: ColorDropDownToolPropsType) => {
         ]}
       />
     </Space>
-  )
-}
+  );
+};

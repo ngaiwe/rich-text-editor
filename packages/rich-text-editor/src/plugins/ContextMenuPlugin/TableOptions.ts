@@ -4,8 +4,8 @@ import {
   LexicalEditor,
   NodeSelection,
   RangeSelection,
-} from 'lexical'
-import ContextMenuOption from './ContextMemuOption'
+} from 'lexical';
+import ContextMenuOption from './ContextMemuOption';
 // eslint-disable-next-line camelcase
 import {
   $deleteTableColumn__EXPERIMENTAL,
@@ -13,81 +13,76 @@ import {
   $getTableCellNodeFromLexicalNode,
   $insertTableColumn__EXPERIMENTAL,
   $insertTableRow__EXPERIMENTAL,
-} from '@lexical/table'
+} from '@lexical/table';
 
 export function isTableNode(
   activeEditor: LexicalEditor,
-  editorSelection:
-    | RangeSelection
-    | NodeSelection
-    | GridSelection
-    | null
-    | undefined
+  editorSelection: RangeSelection | NodeSelection | GridSelection | null | undefined,
 ) {
   if ($isRangeSelection(editorSelection)) {
     const tableCellNodeFromSelection = $getTableCellNodeFromLexicalNode(
-      editorSelection.anchor.getNode()
-    )
+      editorSelection.anchor.getNode(),
+    );
 
     if (tableCellNodeFromSelection == null) {
-      return false
+      return false;
     }
 
     const tableCellParentNodeDOM = activeEditor.getElementByKey(
-      tableCellNodeFromSelection.getKey()
-    )
+      tableCellNodeFromSelection.getKey(),
+    );
 
     if (tableCellParentNodeDOM === null) {
-      return false
+      return false;
     }
 
-    return true
+    return true;
   }
 
-  return false
+  return false;
 }
 
 export default (editor: LexicalEditor) => [
   new ContextMenuOption('在上方插一行', {
-    onSelect: _node => {
+    onSelect: () => {
       editor.update(() => {
-        $insertTableRow__EXPERIMENTAL(false)
-      })
+        $insertTableRow__EXPERIMENTAL(false);
+      });
     },
   }),
   new ContextMenuOption('在下方插一行', {
-    onSelect: _node => {
+    onSelect: () => {
       editor.update(() => {
-        $insertTableRow__EXPERIMENTAL(true)
-      })
+        $insertTableRow__EXPERIMENTAL(true);
+      });
     },
   }),
   new ContextMenuOption('在左边插一列', {
-    onSelect: _node => {
+    onSelect: () => {
       editor.update(() => {
-        $insertTableColumn__EXPERIMENTAL(false)
-      })
+        $insertTableColumn__EXPERIMENTAL(false);
+      });
     },
   }),
   new ContextMenuOption('在右边插一列', {
-    onSelect: _node => {
+    onSelect: () => {
       editor.update(() => {
-        $insertTableColumn__EXPERIMENTAL(true)
-      })
+        $insertTableColumn__EXPERIMENTAL(true);
+      });
     },
   }),
   new ContextMenuOption('删除当前行', {
-    onSelect: _node => {
+    onSelect: () => {
       editor.update(() => {
-        $deleteTableRow__EXPERIMENTAL()
-      })
+        $deleteTableRow__EXPERIMENTAL();
+      });
     },
   }),
   new ContextMenuOption('删除当前列', {
-    onSelect: _node => {
+    onSelect: () => {
       editor.update(() => {
-        $deleteTableColumn__EXPERIMENTAL()
-      })
+        $deleteTableColumn__EXPERIMENTAL();
+      });
     },
   }),
-]
+];

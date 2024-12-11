@@ -1,7 +1,7 @@
-import type {LexicalEditor} from 'lexical'
+import type { LexicalEditor } from 'lexical';
 
-import {$isListItemNode} from '@lexical/list'
-import {useLexicalComposerContext} from '@lexical/react/LexicalComposerContext'
+import { $isListItemNode } from '@lexical/list';
+import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext';
 import {
   $getSelection,
   $isRangeSelection,
@@ -11,54 +11,48 @@ import {
   INSERT_TAB_COMMAND,
   KEY_TAB_COMMAND,
   OUTDENT_CONTENT_COMMAND,
-} from 'lexical'
-import {useEffect} from 'react'
+} from 'lexical';
+import { useEffect } from 'react';
 
 export function registerTabIndentation(editor: LexicalEditor) {
   return editor.registerCommand<KeyboardEvent>(
     KEY_TAB_COMMAND,
     event => {
-      const selection = $getSelection()
+      const selection = $getSelection();
 
       if (!$isRangeSelection(selection)) {
-        return false
+        return false;
       }
 
-      const startOffset = selection.getCharacterOffsets()[0]
+      const startOffset = selection.getCharacterOffsets()[0];
 
-      const anchor = selection.anchor
-      const focus = selection.focus
-      const first = focus.isBefore(anchor) ? focus : anchor
-      const firstNode = first.getNode()
-      const firstBlock = firstNode.getTopLevelElementOrThrow()
+      const anchor = selection.anchor;
+      const focus = selection.focus;
+      const first = focus.isBefore(anchor) ? focus : anchor;
+      const firstNode = first.getNode();
+      const firstBlock = firstNode.getTopLevelElementOrThrow();
 
-      const tabnode = [...firstBlock.getChildren()].shift()
+      const tabnode = [...firstBlock.getChildren()].shift();
 
-      event.preventDefault()
+      event.preventDefault();
 
-      let command = INSERT_TAB_COMMAND
+      let command = INSERT_TAB_COMMAND;
 
-      if (
-        $isListItemNode(tabnode) ||
-        $isTabNode(tabnode) ||
-        Boolean(startOffset)
-      ) {
-        command = event.shiftKey
-          ? OUTDENT_CONTENT_COMMAND
-          : INDENT_CONTENT_COMMAND
+      if ($isListItemNode(tabnode) || $isTabNode(tabnode) || Boolean(startOffset)) {
+        command = event.shiftKey ? OUTDENT_CONTENT_COMMAND : INDENT_CONTENT_COMMAND;
       }
 
-      return editor.dispatchCommand(command, undefined)
+      return editor.dispatchCommand(command, undefined);
     },
-    COMMAND_PRIORITY_EDITOR
-  )
+    COMMAND_PRIORITY_EDITOR,
+  );
 }
 
 export function TabIndentationPlugin(): null {
-  const [editor] = useLexicalComposerContext()
+  const [editor] = useLexicalComposerContext();
   useEffect(() => {
-    return registerTabIndentation(editor)
-  })
+    return registerTabIndentation(editor);
+  });
 
-  return null
+  return null;
 }

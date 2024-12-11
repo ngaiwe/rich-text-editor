@@ -1,4 +1,4 @@
-import React, {Suspense} from 'react'
+import React, { Suspense } from 'react';
 
 import {
   $applyNodeReplacement,
@@ -11,66 +11,59 @@ import {
   NodeKey,
   SerializedLexicalNode,
   Spread,
-} from 'lexical'
-import {CUSTOMIZE_ATTRIBUTE_TYPE} from '../../config/GlobalConstant'
+} from 'lexical';
+import { CUSTOMIZE_ATTRIBUTE_TYPE } from '../../config/GlobalConstant';
 
-const ReplaceBlankNodeZhTagType = 'replaceBlank'
+const ReplaceBlankNodeZhTagType = 'replaceBlank';
 
 export interface ReplaceBlankPayload {
-  key?: NodeKey
-  text: string
+  key?: NodeKey;
+  text: string;
 }
 
-export type SerializedBlankNode = Spread<
-  ReplaceBlankPayload,
-  SerializedLexicalNode
->
+export type SerializedBlankNode = Spread<ReplaceBlankPayload, SerializedLexicalNode>;
 
 // 挖空组件
-const ReplaceBlankComponent = React.lazy(
-  () => import('./ReplaceBlankComponent')
-)
+const ReplaceBlankComponent = React.lazy(() => import('./ReplaceBlankComponent'));
 
-function convertReplaceBlankElement(
-  domNode: HTMLSpanElement
-): null | DOMConversionOutput {
+function convertReplaceBlankElement(domNode: HTMLSpanElement): null | DOMConversionOutput {
   const node = $createReplaceBlankNode({
     text: domNode?.innerHTML,
-  })
+  });
 
-  return {node}
+  return { node };
 }
 
 export class ReplaceBlankNode extends DecoratorNode<JSX.Element> {
-  __text: string = ''
+  __text: string = '';
 
   static getType(): string {
-    return ReplaceBlankNodeZhTagType
+    return ReplaceBlankNodeZhTagType;
   }
 
   static clone(node: ReplaceBlankNode): ReplaceBlankNode {
-    return new ReplaceBlankNode(node.__text, node.__key)
+    return new ReplaceBlankNode(node.__text, node.__key);
   }
 
   static importJSON(serializedNode: SerializedBlankNode): ReplaceBlankNode {
-    const {text} = serializedNode
+    const { text } = serializedNode;
 
     const node = $createReplaceBlankNode({
       text,
-    })
+    });
 
-    return node
+    return node;
   }
 
   exportDOM(): DOMExportOutput {
-    const element = document.createElement('span')
+    const element = document.createElement('span');
 
-    element.setAttribute(CUSTOMIZE_ATTRIBUTE_TYPE, ReplaceBlankNodeZhTagType)
-    element.innerHTML = this.__text
+    element.setAttribute(CUSTOMIZE_ATTRIBUTE_TYPE, ReplaceBlankNodeZhTagType);
+    element.innerHTML = this.__text;
 
     return {
       element,
-    }
+    };
   }
 
   static importDOM(): DOMConversionMap | null {
@@ -78,30 +71,29 @@ export class ReplaceBlankNode extends DecoratorNode<JSX.Element> {
       span: (node: Node) => {
         const status =
           node instanceof HTMLSpanElement &&
-          (node.getAttribute(CUSTOMIZE_ATTRIBUTE_TYPE) ===
-            ReplaceBlankNodeZhTagType ||
-            node.getAttribute(CUSTOMIZE_ATTRIBUTE_TYPE) === 'hollowBlank')
+          (node.getAttribute(CUSTOMIZE_ATTRIBUTE_TYPE) === ReplaceBlankNodeZhTagType ||
+            node.getAttribute(CUSTOMIZE_ATTRIBUTE_TYPE) === 'hollowBlank');
 
         if (!status) {
-          return null
+          return null;
         }
 
         return {
           conversion: convertReplaceBlankElement,
           priority: 2,
-        }
+        };
       },
-    }
+    };
   }
 
   public constructor(text: string, key?: NodeKey) {
-    super(key)
+    super(key);
 
-    this.__text = text
+    this.__text = text;
   }
 
   getText() {
-    return this.__text
+    return this.__text;
   }
 
   exportJSON(): SerializedBlankNode {
@@ -109,21 +101,21 @@ export class ReplaceBlankNode extends DecoratorNode<JSX.Element> {
       type: ReplaceBlankNodeZhTagType,
       text: this.__text ?? '',
       version: 1,
-    }
+    };
   }
 
   createDOM(config: EditorConfig): HTMLElement {
-    const span = document.createElement('span')
-    const theme = config.theme
-    const className = theme.replaceBlank
+    const span = document.createElement('span');
+    const theme = config.theme;
+    const className = theme.replaceBlank;
     if (className !== undefined) {
-      span.className = className
+      span.className = className;
     }
-    return span
+    return span;
   }
 
   updateDOM(): false {
-    return false
+    return false;
   }
 
   decorate(): JSX.Element {
@@ -131,19 +123,16 @@ export class ReplaceBlankNode extends DecoratorNode<JSX.Element> {
       <Suspense fallback={null}>
         <ReplaceBlankComponent nodeKey={this.getKey()} text={this.__text} />
       </Suspense>
-    )
+    );
   }
 }
 
-export function $createReplaceBlankNode({
-  key,
-  text,
-}: ReplaceBlankPayload): ReplaceBlankNode {
-  return $applyNodeReplacement(new ReplaceBlankNode(text, key))
+export function $createReplaceBlankNode({ key, text }: ReplaceBlankPayload): ReplaceBlankNode {
+  return $applyNodeReplacement(new ReplaceBlankNode(text, key));
 }
 
 export function $isReplaceBlankNode(
-  node: LexicalNode | null | undefined
+  node: LexicalNode | null | undefined,
 ): node is ReplaceBlankNode {
-  return node instanceof ReplaceBlankNode
+  return node instanceof ReplaceBlankNode;
 }

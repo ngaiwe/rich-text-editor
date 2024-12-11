@@ -9,26 +9,26 @@ import {
   NodeKey,
   SerializedLexicalNode,
   Spread,
-} from 'lexical'
-import React, {Suspense} from 'react'
-import {ATTR_MATHJAX_KEY} from './config'
+} from 'lexical';
+import React, { Suspense } from 'react';
+import { ATTR_MATHJAX_KEY } from './config';
 
 export interface ImagePayload {
-  altText: string
-  width: number
-  height: number
-  src: string
-  key?: NodeKey
-  attrMathJax?: string
-  nodeKey?: string
+  altText: string;
+  width: number;
+  height: number;
+  src: string;
+  key?: NodeKey;
+  attrMathJax?: string;
+  nodeKey?: string;
 }
 
-export type SerializedImageNode = Spread<ImagePayload, SerializedLexicalNode>
+export type SerializedImageNode = Spread<ImagePayload, SerializedLexicalNode>;
 
-const ImageComponent = React.lazy(() => import('./ImageComponent'))
+const ImageComponent = React.lazy(() => import('./ImageComponent'));
 
 interface ImageElementDomNodeType extends HTMLImageElement {
-  [ATTR_MATHJAX_KEY]: string
+  [ATTR_MATHJAX_KEY]: string;
 }
 
 function convertImageElement(domNode: Node): null | DOMConversionOutput {
@@ -39,24 +39,24 @@ function convertImageElement(domNode: Node): null | DOMConversionOutput {
       width,
       height,
       [ATTR_MATHJAX_KEY]: attrMathJax,
-    } = domNode as unknown as ImageElementDomNodeType
+    } = domNode as unknown as ImageElementDomNodeType;
 
-    const node = $createImageNode({altText, height, src, width, attrMathJax})
+    const node = $createImageNode({ altText, height, src, width, attrMathJax });
 
-    return {node}
+    return { node };
   }
-  return null
+  return null;
 }
 
 export class ImageNode extends DecoratorNode<JSX.Element> {
-  __src: string
-  __altText: string
-  __width: 'inherit' | number
-  __height: 'inherit' | number
-  __attrMathJax?: string
+  __src: string;
+  __altText: string;
+  __width: 'inherit' | number;
+  __height: 'inherit' | number;
+  __attrMathJax?: string;
 
   static getType(): string {
-    return 'image'
+    return 'image';
   }
 
   static clone(node: ImageNode): ImageNode {
@@ -66,12 +66,12 @@ export class ImageNode extends DecoratorNode<JSX.Element> {
       node.__width,
       node.__height,
       node.__key,
-      node.__attrMathJax
-    )
+      node.__attrMathJax,
+    );
   }
 
   static importJSON(serializedNode: SerializedImageNode): ImageNode {
-    const {altText, height, width, src, attrMathJax} = serializedNode
+    const { altText, height, width, src, attrMathJax } = serializedNode;
 
     const node = $createImageNode({
       altText,
@@ -79,35 +79,35 @@ export class ImageNode extends DecoratorNode<JSX.Element> {
       src,
       width,
       attrMathJax,
-    })
+    });
 
-    return node
+    return node;
   }
 
   exportDOM(): DOMExportOutput {
-    const element = document.createElement('img')
+    const element = document.createElement('img');
 
-    element.setAttribute('src', this.__src)
-    element.setAttribute('alt', this.__altText)
-    element.setAttribute('width', this.__width.toString())
-    element.setAttribute('height', this.__height.toString())
+    element.setAttribute('src', this.__src);
+    element.setAttribute('alt', this.__altText);
+    element.setAttribute('width', this.__width.toString());
+    element.setAttribute('height', this.__height.toString());
 
     if (this.__attrMathJax) {
-      element.setAttribute('attr-mathjax', this.__attrMathJax || '')
+      element.setAttribute('attr-mathjax', this.__attrMathJax || '');
     }
 
     return {
       element,
-    }
+    };
   }
 
   static importDOM(): DOMConversionMap | null {
     return {
-      img: (node: Node) => ({
+      img: () => ({
         conversion: convertImageElement,
         priority: 0,
       }),
-    }
+    };
   }
 
   constructor(
@@ -116,14 +116,14 @@ export class ImageNode extends DecoratorNode<JSX.Element> {
     width: 'inherit' | number,
     height: 'inherit' | number,
     key?: NodeKey,
-    attrMathJax?: string
+    attrMathJax?: string,
   ) {
-    super(key)
-    this.__src = src
-    this.__altText = altText
-    this.__width = width || 'inherit'
-    this.__height = height || 'inherit'
-    this.__attrMathJax = attrMathJax
+    super(key);
+    this.__src = src;
+    this.__altText = altText;
+    this.__width = width || 'inherit';
+    this.__height = height || 'inherit';
+    this.__attrMathJax = attrMathJax;
   }
 
   exportJSON(): SerializedImageNode {
@@ -134,50 +134,47 @@ export class ImageNode extends DecoratorNode<JSX.Element> {
       type: 'image',
       version: 1,
       width: this.__width === 'inherit' ? 0 : this.__width,
-    }
+    };
 
     if (this.__attrMathJax) {
       Object.assign(defaultJSON, {
         attrMathJax: this.__attrMathJax,
-      })
+      });
     }
 
-    return defaultJSON
+    return defaultJSON;
   }
 
-  setWidthAndHeight(
-    width: 'inherit' | number,
-    height: 'inherit' | number
-  ): void {
-    const writable = this.getWritable()
-    writable.__width = width
-    writable.__height = height
+  setWidthAndHeight(width: 'inherit' | number, height: 'inherit' | number): void {
+    const writable = this.getWritable();
+    writable.__width = width;
+    writable.__height = height;
   }
 
   createDOM(config: EditorConfig): HTMLElement {
-    const span = document.createElement('span')
-    const theme = config.theme
-    const className = theme.image
+    const span = document.createElement('span');
+    const theme = config.theme;
+    const className = theme.image;
     if (className !== undefined) {
-      span.className = className
+      span.className = className;
     }
-    return span
+    return span;
   }
 
   updateDOM(): false {
-    return false
+    return false;
   }
 
   getSrc(): string {
-    return this.__src
+    return this.__src;
   }
 
   getAltText(): string {
-    return this.__altText
+    return this.__altText;
   }
 
   getAttrMathJax(): string {
-    return this.__attrMathJax || ''
+    return this.__attrMathJax || '';
   }
 
   decorate(): JSX.Element {
@@ -193,7 +190,7 @@ export class ImageNode extends DecoratorNode<JSX.Element> {
           resizable
         />
       </Suspense>
-    )
+    );
   }
 }
 
@@ -205,13 +202,9 @@ export function $createImageNode({
   altText,
   attrMathJax,
 }: ImagePayload): ImageNode {
-  return $applyNodeReplacement(
-    new ImageNode(src, altText, width, height, key, attrMathJax)
-  )
+  return $applyNodeReplacement(new ImageNode(src, altText, width, height, key, attrMathJax));
 }
 
-export function $isImageNode(
-  node: LexicalNode | null | undefined
-): node is ImageNode {
-  return node instanceof ImageNode
+export function $isImageNode(node: LexicalNode | null | undefined): node is ImageNode {
+  return node instanceof ImageNode;
 }

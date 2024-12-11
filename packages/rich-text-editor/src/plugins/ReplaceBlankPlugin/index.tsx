@@ -1,6 +1,6 @@
-import {useContext, useEffect} from 'react'
+import { useContext, useEffect } from 'react';
 
-import {useLexicalComposerContext} from '@lexical/react/LexicalComposerContext'
+import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext';
 import {
   $createParagraphNode,
   $getSelection,
@@ -9,68 +9,62 @@ import {
   $isRootOrShadowRoot,
   COMMAND_PRIORITY_EDITOR,
   COMMAND_PRIORITY_LOW,
-} from 'lexical'
+} from 'lexical';
 
-import {$dfs, $wrapNodeInElement, mergeRegister} from '@lexical/utils'
-import filter from 'lodash/filter'
-import {REPLACEBLANK_CHANGE_COMMAND} from '../../config/EditorCommand'
-import {
-  REPLACE_BLANK_CHANGE_COMMAND,
-  REPLACE_BLANK_COMMAND,
-} from '../../config/GlobalCommand'
-import {EditorContext} from '../../context/EditorContext'
+import { $dfs, $wrapNodeInElement, mergeRegister } from '@lexical/utils';
+import filter from 'lodash/filter';
+import { REPLACEBLANK_CHANGE_COMMAND } from '../../config/EditorCommand';
+import { REPLACE_BLANK_CHANGE_COMMAND, REPLACE_BLANK_COMMAND } from '../../config/GlobalCommand';
+import { EditorContext } from '../../context/EditorContext';
 import {
   $createReplaceBlankNode,
   $isReplaceBlankNode,
   ReplaceBlankNode,
-} from '../../nodes/ReplaceBlankNode'
+} from '../../nodes/ReplaceBlankNode';
 
 export interface ReplaceBlankChangeParams {
-  nodeKey: string
-  text: string
-  index: number
+  nodeKey: string;
+  text: string;
+  index: number;
 }
 
 export default function ReplaceBlankPlugin() {
-  const [editor] = useLexicalComposerContext()
+  const [editor] = useLexicalComposerContext();
 
-  const {dispatchCommandsMap} = useContext(EditorContext)
+  const { dispatchCommandsMap } = useContext(EditorContext);
 
   useEffect(() => {
     if (!editor.hasNodes([ReplaceBlankNode])) {
-      throw new Error('[ReplaceBlankNode]: not registered on editor')
+      throw new Error('[ReplaceBlankNode]: not registered on editor');
     }
 
     return mergeRegister(
       editor.registerCommand(
         REPLACE_BLANK_COMMAND,
         () => {
-          const selection = $getSelection()
+          const selection = $getSelection();
 
           if (!$isRangeSelection(selection)) {
-            return true
+            return true;
           }
 
-          const text = selection.getTextContent()
+          const text = selection.getTextContent();
 
           if (!text?.length) {
-            return true
+            return true;
           }
 
           const replaceBlankNode = $createReplaceBlankNode({
             text,
-          })
+          });
 
-          $insertNodes([replaceBlankNode])
+          $insertNodes([replaceBlankNode]);
 
           if ($isRootOrShadowRoot(replaceBlankNode.getParentOrThrow())) {
-            $wrapNodeInElement(
-              replaceBlankNode,
-              $createParagraphNode,
-            ).selectEnd()
+            $wrapNodeInElement(replaceBlankNode, $createParagraphNode).selectEnd();
           }
 
-          return true
+          return true;
         },
         COMMAND_PRIORITY_EDITOR,
       ),
@@ -78,26 +72,26 @@ export default function ReplaceBlankPlugin() {
         REPLACE_BLANK_CHANGE_COMMAND,
         () => {
           if (!dispatchCommandsMap) {
-            return true
+            return true;
           }
 
           editor.update(() => {
             const replaceBlanNodes = filter(
               $dfs(),
-              ({node}) => $isReplaceBlankNode(node) && !node.isDirty(),
-            )
+              ({ node }) => $isReplaceBlankNode(node) && !node.isDirty(),
+            );
 
             const value = replaceBlanNodes.map((decoratorNode, index) => {
-              const node = decoratorNode.node
+              const node = decoratorNode.node;
               if ($isReplaceBlankNode(node)) {
                 return {
                   nodeKey: node?.getKey(),
                   text: node?.getText(),
                   index,
-                }
+                };
               }
-              return {}
-            }) as ReplaceBlankChangeParams[]
+              return {};
+            }) as ReplaceBlankChangeParams[];
 
             dispatchCommandsMap({
               type: 'DISPATCH',
@@ -107,14 +101,14 @@ export default function ReplaceBlankPlugin() {
                   value,
                 },
               },
-            })
-          })
-          return true
+            });
+          });
+          return true;
         },
         COMMAND_PRIORITY_LOW,
       ),
-    )
-  }, [dispatchCommandsMap, editor])
+    );
+  }, [dispatchCommandsMap, editor]);
 
-  return null
+  return null;
 }

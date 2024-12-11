@@ -7,29 +7,29 @@ import {
   ParagraphNode,
   SerializedElementNode,
   SerializedParagraphNode,
-} from 'lexical'
+} from 'lexical';
 
 function convertParagraphElement(element: HTMLElement): DOMConversionOutput {
-  const node = $createExtenedParagraphNode()
+  const node = $createExtenedParagraphNode();
 
   if (element.style) {
-    node.setFormat(element.style.textAlign as ElementFormatType)
+    node.setFormat(element.style.textAlign as ElementFormatType);
   }
 
-  return {node}
+  return { node };
 }
 
 export class ExtendedParagraphNode extends ParagraphNode {
   static getType(): string {
-    return 'extended-paragraph'
+    return 'extended-paragraph';
   }
 
   static clone(node: ExtendedParagraphNode): ExtendedParagraphNode {
-    return new ExtendedParagraphNode(node.__key)
+    return new ExtendedParagraphNode(node.__key);
   }
 
   static importDOM(): DOMConversionMap | null {
-    const importers = ParagraphNode.importDOM()
+    const importers = ParagraphNode.importDOM();
 
     return {
       ...importers,
@@ -37,11 +37,11 @@ export class ExtendedParagraphNode extends ParagraphNode {
         conversion: convertParagraphElement,
         priority: 1,
       }),
-    }
+    };
   }
 
   static importJSON(serializedNode: SerializedParagraphNode): ParagraphNode {
-    return ParagraphNode.importJSON(serializedNode)
+    return ParagraphNode.importJSON(serializedNode);
   }
 
   exportJSON(): SerializedElementNode {
@@ -49,16 +49,16 @@ export class ExtendedParagraphNode extends ParagraphNode {
       ...super.exportJSON(),
       type: this.getType(),
       version: 1,
-    }
+    };
   }
 }
 
 export function $createExtenedParagraphNode(): ExtendedParagraphNode {
-  return $applyNodeReplacement(new ExtendedParagraphNode())
+  return $applyNodeReplacement(new ExtendedParagraphNode());
 }
 
 export function $isExtendedParagraphNode(
-  node: LexicalNode | null | undefined
+  node: LexicalNode | null | undefined,
 ): node is ExtendedParagraphNode {
-  return node instanceof ExtendedParagraphNode
+  return node instanceof ExtendedParagraphNode;
 }
