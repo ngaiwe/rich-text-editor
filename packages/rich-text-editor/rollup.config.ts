@@ -5,6 +5,7 @@ import svgr from '@svgr/rollup';
 import path from 'path';
 import dts from 'rollup-plugin-dts';
 import esbuild from 'rollup-plugin-esbuild';
+import babel from '@rollup/plugin-babel';
 import ignoreImport from 'rollup-plugin-ignore-import';
 import postcss from 'rollup-plugin-postcss';
 import pkg from './package.json';
@@ -20,7 +21,10 @@ const outputOptions = {
   preserveModulesRoot: 'src',
 };
 
-const externalPackages = [...Object.keys(pkg.peerDependencies || {})];
+const externalPackages = [
+  ...Object.keys(pkg.dependencies || {}),
+  ...Object.keys(pkg.peerDependencies || {}),
+];
 
 const regexesOfPackages = externalPackages.map(
   packageName => new RegExp(`^${packageName}(\\/.*)?`),
@@ -31,25 +35,35 @@ const config = {
   plugins: [
     json(),
     commonjs(),
-    alias({
-      entries: {
-        '@editor': resolveRoot('./src'),
-      },
-    }),
     nodeResolve({
-      mainFields: ['module', 'main', 'browser'],
+      mainFields: ['module', 'main', 'native', 'browser'],
       browser: true,
       extensions: ['.ts', '.js', '.tsx'],
     }),
+    alias({
+      entries: {
+        '@': resolveRoot('./src'),
+      },
+    }),
     esbuild({
       include: /\.[jt]sx?$/,
-      exclude: [/node_modules/],
+      exclude: /node_modules/,
       sourceMap: false,
       minify: process.env.NODE_ENV === 'production',
-      target: 'esnext',
-      jsx: 'transform',
-      jsxFactory: 'React.createElement',
-      jsxFragment: 'React.Fragment',
+      jsx: 'automatic',
+      tsconfig: 'tsconfig.json',
+    }),
+    babel({
+      presets: [
+        [
+          '@babel/preset-react',
+          {
+            runtime: 'automatic',
+          },
+        ],
+      ],
+      exclude: 'node_modules/**/*',
+      extensions: ['.js', '.ts', '.tsx'],
     }),
     svgr(),
 

@@ -1,5 +1,9 @@
-const EditorExample = () => {
-  return <div>EditorExample</div>
-}
+'use client';
 
-export default EditorExample
+import { Editor } from '@editor/react-editor';
+
+const EditorExample = () => {
+  return <Editor />;
+};
+
+export default EditorExample;
