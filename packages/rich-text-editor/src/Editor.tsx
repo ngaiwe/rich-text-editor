@@ -12,6 +12,7 @@ import {
   $insertNodes,
   $isElementNode,
   LexicalEditor,
+  LexicalNode,
 } from 'lexical';
 import { PluginsType } from './config/PluginsConfig';
 import { EditorContextPrivider } from './context/EditorContext';
@@ -26,14 +27,23 @@ export interface EditorConfigType {
   plugins?: PluginsType;
 }
 
+export interface EditorPluginConfig {
+  name: string;
+  init: (editor: LexicalEditor) => void;
+  nodes?: Array<{
+    node: typeof LexicalNode;
+  }>;
+  toolbar?: [(editor: LexicalEditor) => void];
+  options?: Record<string, unknown>;
+}
+
 export interface EditorPropsType {
   richText?: string;
   style?: React.CSSProperties;
   onChange?: ListenerType;
   config?: EditorConfigType;
+  plugins?: EditorPluginConfig[];
 }
-
-const classNameTag = 'index';
 
 function prepopulatedRichText(editor: LexicalEditor, htmlString: string) {
   const newNodes = EditorParser.getInstance().parserHTMLStringToLexicalDomTree(editor, htmlString);
@@ -66,15 +76,17 @@ const Editor = forwardRef<EditorRefProxyContainerType, EditorPropsType>(
         ? (editor: LexicalEditor) => prepopulatedRichText(editor, props?.richText || '')
         : undefined,
       namespace: 'Editor',
+      // 待重构
       nodes: enableNodes(props?.config?.plugins),
       theme: EditorTheme,
       editable: props?.config?.editable ?? true,
+      // 待重构
       onError,
     };
 
     return (
       <LexicalComposer initialConfig={initialConfig}>
-        <div className={addClassName([`${classNameTag}-editor`])} style={props?.style ?? {}}>
+        <div className={addClassName(['main'])} style={props?.style ?? {}}>
           <EditorContextPrivider>
             <EditorRefProxyContainer ref={refProxy}>
               <EditorContainer config={props?.config} onChange={props?.onChange} />

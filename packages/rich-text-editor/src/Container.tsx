@@ -28,7 +28,7 @@ import { TabIndentationPlugin } from './plugins/TabIndentationPlugin';
 import TableModalPlugin from './plugins/TableModalPlugin';
 import { addClassName } from './utils/className';
 
-const classNameTag = 'editor';
+const classNameTag = 'container';
 
 export interface EditorChangeParamsType {
   htmlString: string;

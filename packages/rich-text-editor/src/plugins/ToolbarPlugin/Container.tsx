@@ -1,23 +1,19 @@
-import {Col, Row} from 'antd'
-import {
-  PluginHandle,
-  PluginsType,
-  UPLOAD_IMAGE_PLUGIN_CONFIG,
-} from '../../config/PluginsConfig'
-import {AlignDropDownTool} from '../../toolbar/AlignDropDownTool'
-import {BlockControlsDropDownTool} from '../../toolbar/BlockControlsDropDownTool'
-import {ColorDropDownTool} from '../../toolbar/ColorDropDownTool'
-import {FontDropDownTool} from '../../toolbar/FontDropDownTool'
-import {FontFormatTool} from '../../toolbar/FontFormatTool'
-import {FontFormatTypeEnum} from '../../toolbar/FontFormatTool/config'
-import {FormatPainterTool} from '../../toolbar/FormatPainterTool'
-import {InsertTool} from '../../toolbar/InsertTool'
-import {UploadImageTool} from '../../toolbar/UploadImageTool'
+import { Col, Row } from 'antd';
+import { PluginHandle, PluginsType, UPLOAD_IMAGE_PLUGIN_CONFIG } from '../../config/PluginsConfig';
+import { AlignDropDownTool } from '../../toolbar/AlignDropDownTool';
+import { BlockControlsDropDownTool } from '../../toolbar/BlockControlsDropDownTool';
+import { ColorDropDownTool } from '../../toolbar/ColorDropDownTool';
+import { FontDropDownTool } from '../../toolbar/FontDropDownTool';
+import { FontFormatTool } from '../../toolbar/FontFormatTool';
+import { FontFormatTypeEnum } from '../../toolbar/FontFormatTool/config';
+import { FormatPainterTool } from '../../toolbar/FormatPainterTool';
+import { InsertTool } from '../../toolbar/InsertTool';
+import { UploadImageTool } from '../../toolbar/UploadImageTool';
 
-import ToolDivider from '../../ui/ToolDivider'
+import ToolDivider from '../../ui/ToolDivider';
 
 interface ContainerPropsType {
-  plugins?: PluginsType
+  plugins?: PluginsType;
 }
 
 export const Container = (props: ContainerPropsType) => {
@@ -104,5 +100,5 @@ export const Container = (props: ContainerPropsType) => {
         </>
       )}
     </Row>
-  )
-}
+  );
+};

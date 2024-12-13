@@ -1,8 +1,8 @@
 // 编辑器默认 className 标识
-export const CLASSNAMETAG = 'eduEditor';
+export const CLASSNAMETAG = 'editor';
 
 // className 统一添加方法
-// addClassName(['up', 'down]) => "eduEditor-up eduEditor-down"
+// addClassName(['up', 'down]) => "editor-up editor-down"
 export function addClassName(classNames: string[] = [], classNameTag: string = CLASSNAMETAG) {
   if (!classNames?.length) {
     return '';
@@ -12,7 +12,7 @@ export function addClassName(classNames: string[] = [], classNameTag: string = C
 }
 
 // 默认主题前缀
-const CLASSNAMETHEMETAG = 'eduEditorTheme';
+const CLASSNAMETHEMETAG = 'editorTheme';
 // 统一主题 classname 方法
 // addClassNameTheme('text-underline') => "EditorTheme__text-underline"
 export function addClassNameTheme(className: string, classNameTag: string = CLASSNAMETHEMETAG) {

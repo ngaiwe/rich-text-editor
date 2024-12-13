@@ -1,52 +1,37 @@
-import {useLexicalComposerContext} from '@lexical/react/LexicalComposerContext'
-import {LexicalContextMenuPlugin} from '@lexical/react/LexicalContextMenuPlugin'
-import {
-  $getSelection,
-  GridSelection,
-  LexicalNode,
-  NodeSelection,
-  RangeSelection,
-} from 'lexical'
-import {useCallback, useState} from 'react'
-import * as ReactDOM from 'react-dom'
-import {ContextMenu} from '../../ui/ContextMenu'
-import {addClassName} from '../../utils/className'
-import ContextMenuOption from './ContextMemuOption'
+import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext';
+import { LexicalContextMenuPlugin } from '@lexical/react/LexicalContextMenuPlugin';
+import { $getSelection, GridSelection, LexicalNode, NodeSelection, RangeSelection } from 'lexical';
+import { useCallback, useState } from 'react';
+import * as ReactDOM from 'react-dom';
+import { ContextMenu } from '../../ui/ContextMenu';
+import { addClassName } from '../../utils/className';
+import ContextMenuOption from './ContextMemuOption';
 
-import useOptions from './OptionsHook'
+import useOptions from './OptionsHook';
 
 export default function ContextMenuPlugin(): JSX.Element {
-  const [editor] = useLexicalComposerContext()
+  const [editor] = useLexicalComposerContext();
   const [editorSelection, setEditorSelection] = useState<
     RangeSelection | NodeSelection | GridSelection | null | undefined
-  >()
+  >();
 
-  const options = useOptions(editor, editorSelection)
+  const options = useOptions(editor, editorSelection);
 
   const onSelectOption = useCallback(
-    (
-      selectedOption: ContextMenuOption,
-      targetNode: LexicalNode | null,
-      closeMenu: () => void
-    ) => {
+    (selectedOption: ContextMenuOption, targetNode: LexicalNode | null, closeMenu: () => void) => {
       editor.update(() => {
-        selectedOption.onSelect(targetNode)
-        closeMenu()
-      })
+        selectedOption.onSelect(targetNode);
+        closeMenu();
+      });
     },
-    [editor]
-  )
+    [editor],
+  );
 
   const menuRenderFn = useCallback(
     (
-      anchorElementRef: {current: Element | DocumentFragment | any},
-      {
-        selectedIndex,
-        options: _options,
-        selectOptionAndCleanUp,
-        setHighlightedIndex,
-      }: any,
-      {setMenuRef}: any
+      anchorElementRef: { current: Element | DocumentFragment | any },
+      { selectedIndex, options: _options, selectOptionAndCleanUp, setHighlightedIndex }: any,
+      { setMenuRef }: any,
     ) => {
       return anchorElementRef.current
         ? ReactDOM.createPortal(
@@ -63,28 +48,28 @@ export default function ContextMenuPlugin(): JSX.Element {
                 options={options}
                 selectedItemIndex={selectedIndex}
                 onOptionClick={(option: ContextMenuOption, index: number) => {
-                  setHighlightedIndex(index)
-                  selectOptionAndCleanUp(option)
+                  setHighlightedIndex(index);
+                  selectOptionAndCleanUp(option);
                 }}
                 onOptionMouseEnter={(index: number) => {
-                  setHighlightedIndex(index)
+                  setHighlightedIndex(index);
                 }}
               />
             </div>,
-            anchorElementRef.current
+            anchorElementRef.current,
           )
-        : null
+        : null;
     },
-    [options]
-  )
+    [options],
+  );
 
   const onOpen = useCallback(() => {
     editor.update(() => {
-      const selection = $getSelection()
+      const selection = $getSelection();
 
-      setEditorSelection(selection)
-    })
-  }, [editor])
+      setEditorSelection(selection);
+    });
+  }, [editor]);
 
   return (
     <LexicalContextMenuPlugin
@@ -93,5 +78,5 @@ export default function ContextMenuPlugin(): JSX.Element {
       onSelectOption={onSelectOption}
       menuRenderFn={menuRenderFn}
     />
-  )
+  );
 }
