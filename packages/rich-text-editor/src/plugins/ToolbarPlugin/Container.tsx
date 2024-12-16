@@ -11,6 +11,7 @@ import { InsertTool } from '../../toolbar/InsertTool';
 import { UploadImageTool } from '../../toolbar/UploadImageTool';
 
 import ToolDivider from '../../ui/ToolDivider';
+import ToolBox from '@/ui/ToolBox';
 
 interface ContainerPropsType {
   plugins?: PluginsType;
@@ -19,6 +20,7 @@ interface ContainerPropsType {
 export const Container = (props: ContainerPropsType) => {
   return (
     <Row align="middle">
+      <ToolBox>123</ToolBox>
       <Col>
         <FormatPainterTool />
       </Col>

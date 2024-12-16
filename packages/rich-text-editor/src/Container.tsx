@@ -10,7 +10,6 @@ import { useCallback, useContext, useEffect } from 'react';
 
 import TableCellResizerPlugin from './plugins/TableCellResizerPlugin';
 import ToolbarPlugin from './plugins/ToolbarPlugin';
-import UploadImagePlugin from './plugins/UploadImagePlugin';
 
 import ContentEditable from './ui/ContentEditable';
 
@@ -18,7 +17,6 @@ import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext
 import { EditorState, LexicalEditor } from 'lexical';
 import { EDITOR_CHANGE_COMMAND } from './config/EditorCommand';
 import { EMPTY_HTMLSTRING } from './config/GlobalConstant';
-import { PluginHandle } from './config/PluginsConfig';
 import { EditorContext } from './context/EditorContext';
 import { EditorConfigType } from './Editor';
 import { ListenerType } from './EditorReducer';
@@ -36,6 +34,7 @@ export interface EditorChangeParamsType {
 
 interface EditorPropsType {
   config?: EditorConfigType;
+  plugins?: EditorPluginConfig[];
   onChange?: ListenerType;
 }
 
@@ -102,9 +101,6 @@ const EditorContainer = (props: EditorPropsType) => {
       <TablePlugin />
       <TableModalPlugin />
       <TableCellResizerPlugin />
-
-      {/* 图片插件 */}
-      {PluginHandle.hasUploadImagePlugin(config?.plugins) && <UploadImagePlugin />}
 
       {/* change 插件 */}
       <OnChangePlugin onChange={onChange} />

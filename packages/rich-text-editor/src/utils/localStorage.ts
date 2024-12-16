@@ -47,7 +47,7 @@ export class StorageUtils {
       return undefined;
     }
 
-    const storage = window.localStorage.getItem(STORAGE_KEY[type]);
+    const storage = window?.localStorage?.getItem(STORAGE_KEY[type]);
 
     if (!storage) {
       return undefined;

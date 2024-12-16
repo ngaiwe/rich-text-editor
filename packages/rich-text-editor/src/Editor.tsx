@@ -27,16 +27,6 @@ export interface EditorConfigType {
   plugins?: PluginsType;
 }
 
-export interface EditorPluginConfig {
-  name: string;
-  init: (editor: LexicalEditor) => void;
-  nodes?: Array<{
-    node: typeof LexicalNode;
-  }>;
-  toolbar?: [(editor: LexicalEditor) => void];
-  options?: Record<string, unknown>;
-}
-
 export interface EditorPropsType {
   richText?: string;
   style?: React.CSSProperties;
@@ -89,7 +79,11 @@ const Editor = forwardRef<EditorRefProxyContainerType, EditorPropsType>(
         <div className={addClassName(['main'])} style={props?.style ?? {}}>
           <EditorContextPrivider>
             <EditorRefProxyContainer ref={refProxy}>
-              <EditorContainer config={props?.config} onChange={props?.onChange} />
+              <EditorContainer
+                plugins={props?.plugins ?? []}
+                config={props?.config}
+                onChange={props?.onChange}
+              />
             </EditorRefProxyContainer>
           </EditorContextPrivider>
         </div>
