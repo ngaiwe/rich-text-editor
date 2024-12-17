@@ -8,7 +8,7 @@ export function addClassName(classNames: string[] = [], classNameTag: string = C
     return '';
   }
 
-  return classNames.map(name => `${classNameTag}_${name}`).join(' ');
+  return classNames.filter(name => name).map(name => `${classNameTag}_${name}`).join(' ');
 }
 
 // 默认主题前缀

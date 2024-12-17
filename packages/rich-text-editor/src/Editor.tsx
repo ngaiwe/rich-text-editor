@@ -1,3 +1,4 @@
+import './styles/htmlVariables.less';
 import './styles/editor.less';
 
 import { LexicalComposer } from '@lexical/react/LexicalComposer';
@@ -12,7 +13,6 @@ import {
   $insertNodes,
   $isElementNode,
   LexicalEditor,
-  LexicalNode,
 } from 'lexical';
 import { PluginsType } from './config/PluginsConfig';
 import { EditorContextPrivider } from './context/EditorContext';

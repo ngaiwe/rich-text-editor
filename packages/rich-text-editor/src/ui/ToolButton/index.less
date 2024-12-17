@@ -1,6 +1,42 @@
 @import '../../styles/var.less';
 
-.@{editor-prefix}_ui-button-active {
-  color: rgba(0, 0, 0, 0.88) !important;
-  background: rgba(0, 0, 0, 0.15) !important;
+.@{editor-prefix}_ui-tool-button {
+  width: 100%;
+  height: 28px;
+  padding: 5px;
+  position: relative;
+  display: inline-flex;
+  margin: 0;
+  font-family: inherit;
+  font-weight: 400;
+  line-height: 22px;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: middle;
+  cursor: pointer;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: var(--editor-border-radius-middle);
+  outline: none;
+  justify-content: center;
+  align-items: center;
+  box-sizing: border-box;
+  appearance: none;
+  user-select: none;
+
+  &-small {
+    font-size: var(--editor-font-size-small);
+  }
+
+  &-base {
+    font-size: var(--editor-font-size-base);
+  }
+
+  &-middle {
+    font-size: var(--editor-font-size-middle);
+  }
+
+  &-large {
+    font-size: var(--editor-font-size-large);
+  }
 }

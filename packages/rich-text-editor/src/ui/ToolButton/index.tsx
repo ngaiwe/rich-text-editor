@@ -1,29 +1,27 @@
-// 工具栏分割线
-import './index.less'
+import { addClassName } from '@/utils/className';
 
-import {Button, ButtonProps} from 'antd'
-import omit from 'lodash/omit'
-import React, {useMemo} from 'react'
-import {addClassName} from '../../utils/className'
+import { FC } from 'react';
+import './index.less';
 
-export interface ToolButtonPropsType {
-  active?: boolean
+export interface ToolButtonProps {
+  type: 'primary' | 'dashed' | 'link' | 'text' | 'default';
+  size: 'small' | 'base' | 'middle' | 'large';
+  disabled: boolean;
+  children?: React.ReactNode;
 }
 
-export default function ToolButton(
-  props: ToolButtonPropsType & ButtonProps & React.RefAttributes<HTMLElement>
-): JSX.Element {
-  const originButtonProps = useMemo<ButtonProps>(
-    () => omit(props, ['active']),
-    [props]
-  )
-
+const ToolButton: FC<ToolButtonProps> = (
+  props = {
+    type: 'default',
+    size: 'base',
+    disabled: false,
+  },
+) => {
   return (
-    <Button
-      {...originButtonProps}
-      className={props?.active ? `${addClassName(['ui-button-active'])}` : ''}
-    >
-      {props?.children}
-    </Button>
-  )
-}
+    <button className={addClassName(['ui-tool-button', `ui-tool-button-${props.size}`])}>
+      {props.children}
+    </button>
+  );
+};
+
+export default ToolButton;
