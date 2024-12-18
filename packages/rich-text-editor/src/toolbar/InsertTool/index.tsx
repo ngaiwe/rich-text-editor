@@ -7,7 +7,7 @@ import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext
 import { mergeRegister } from '@lexical/utils';
 import { DefaultOptionType } from 'antd/es/select';
 import { COMMAND_PRIORITY_LOW, SELECTION_CHANGE_COMMAND } from 'lexical';
-import { DEFAULT_ANTD_COMPONENT_SIZE } from '../../config/AntdUiConfig';
+// import { DEFAULT_ANTD_COMPONENT_SIZE } from '../../config/AntdUiConfig';
 import {
   EDU_INSERT_MATHJAX_MODAL_COMMAND,
   EDU_INSERT_TABLE_COMMAND,
@@ -76,7 +76,7 @@ const InsertTool = (props: InsertToolPropsType) => {
       </Col>
       <Col>
         <Select
-          size={DEFAULT_ANTD_COMPONENT_SIZE}
+          // size={DEFAULT_ANTD_COMPONENT_SIZE}
           value={value}
           defaultValue={value}
           defaultActiveFirstOption

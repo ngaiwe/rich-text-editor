@@ -6,11 +6,13 @@ import './index.less';
 export interface ToolButtonProps {
   type: 'primary' | 'dashed' | 'link' | 'text' | 'default';
   size: 'small' | 'base' | 'middle' | 'large';
+  active: boolean;
   disabled: boolean;
-  children?: React.ReactNode;
+  onClick: (event: React.MouseEvent) => void;
+  children: React.ReactNode;
 }
 
-const ToolButton: FC<ToolButtonProps> = (
+const ToolButton: FC<Partial<ToolButtonProps>> = (
   props = {
     type: 'default',
     size: 'base',
@@ -18,7 +20,14 @@ const ToolButton: FC<ToolButtonProps> = (
   },
 ) => {
   return (
-    <button className={addClassName(['ui-tool-button', `ui-tool-button-${props.size}`])}>
+    <button
+      className={addClassName([
+        'ui-tool-button',
+        `ui-tool-button-${props.size}`,
+        props.active ? 'ui-tool-button-active' : '',
+      ])}
+      onClick={props.onClick}
+    >
       {props.children}
     </button>
   );

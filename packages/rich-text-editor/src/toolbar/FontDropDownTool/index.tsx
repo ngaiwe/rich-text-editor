@@ -11,7 +11,7 @@ import {
   SELECTION_CHANGE_COMMAND,
 } from 'lexical';
 
-import { DEFAULT_ANTD_COMPONENT_SIZE } from '../../config/AntdUiConfig';
+// import { DEFAULT_ANTD_COMPONENT_SIZE } from '../../config/AntdUiConfig';
 import ToolIcon from '../../ui/ToolIcon';
 import { FontDropDownMap, FontDropDowType, HeadingDisabledSizeMap } from './config';
 
@@ -74,7 +74,7 @@ const FontDropDownTool = (props: FontDropDownToolProps) => {
     <Space align="center" size={0}>
       <ToolIcon component={icon} />
       <Select
-        size={DEFAULT_ANTD_COMPONENT_SIZE}
+        // size={DEFAULT_ANTD_COMPONENT_SIZE}
         value={size}
         defaultActiveFirstOption
         bordered={false}

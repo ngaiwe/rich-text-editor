@@ -17,7 +17,7 @@ import {
   ElementFormatType,
 } from 'lexical';
 import React, { useCallback, useEffect, useState } from 'react';
-import { DEFAULT_ANTD_COMPONENT_SIZE } from '../../config/AntdUiConfig';
+// import { DEFAULT_ANTD_COMPONENT_SIZE } from '../../config/AntdUiConfig';
 import { CLICK_OUTSIDE_ROOT_COMMAND } from '../../config/GlobalCommand';
 import { $isExtendedTextNode } from '../../nodes/ExtendedTextNode';
 import ToolButton from '../../ui/ToolButton';
@@ -171,7 +171,7 @@ const FormatPainterTool = () => {
       <ToolButton
         active={active}
         type="text"
-        size={DEFAULT_ANTD_COMPONENT_SIZE}
+        // size={DEFAULT_ANTD_COMPONENT_SIZE}
         disabled={!editor.isEditable()}
         onClick={active ? () => setActive(false) : touchButtonCallback}
       >

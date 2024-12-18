@@ -3,12 +3,18 @@ export const CLASSNAMETAG = 'editor';
 
 // className 统一添加方法
 // addClassName(['up', 'down]) => "editor-up editor-down"
-export function addClassName(classNames: string[] = [], classNameTag: string = CLASSNAMETAG) {
+export function addClassName(
+  classNames: Array<string | undefined> = [],
+  classNameTag: string = CLASSNAMETAG,
+) {
   if (!classNames?.length) {
     return '';
   }
 
-  return classNames.filter(name => name).map(name => `${classNameTag}_${name}`).join(' ');
+  return classNames
+    .filter(name => name)
+    .map(name => `${classNameTag}_${name}`)
+    .join(' ');
 }
 
 // 默认主题前缀
