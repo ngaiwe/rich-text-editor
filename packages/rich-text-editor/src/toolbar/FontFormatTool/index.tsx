@@ -25,11 +25,10 @@ import {
   HeadingDisabledFormats,
 } from './config';
 
-import ClearFontFormat from '../../icons/clear-font-format.svg';
 import ToolButton from '../../ui/ToolButton';
-import ToolIcon from '../../ui/ToolIcon';
 
 import { CLEAR_FORMATTING, FormatPayload } from '../../config/GlobalCommand';
+import { FormatPainterOutlined } from '@ant-design/icons';
 
 // 工具栏更新状态白名单
 const UPDATE_TOOL_TYPE: string[] = [
@@ -89,10 +88,9 @@ const FontFormatTool = (props: FontFormatPropsType) => {
       case FontFormatTypeEnum.reset:
         // 重置格式
         return (
-          <Space>
-            <ToolIcon component={ClearFontFormat} />
-            {FontFormatTextEnum.reset}
-          </Space>
+          <>
+            <FormatPainterOutlined />
+          </>
         );
       case FontFormatTypeEnum.bold:
         // 加粗

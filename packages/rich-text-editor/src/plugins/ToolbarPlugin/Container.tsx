@@ -20,7 +20,6 @@ interface ContainerPropsType {
 export const Container = (props: ContainerPropsType) => {
   return (
     <Row align="middle">
-      <ToolBox>123</ToolBox>
       <Col>
         <FormatPainterTool />
       </Col>

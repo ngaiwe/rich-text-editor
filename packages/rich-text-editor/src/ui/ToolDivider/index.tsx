@@ -1,14 +1,9 @@
-// 工具栏分割线
-import {Divider} from 'antd'
+import { addClassName } from '@/utils/className';
 
-export default function ToolDivider(): JSX.Element {
-  return (
-    <Divider
-      type="vertical"
-      orientation="center"
-      style={{
-        height: '38px',
-      }}
-    />
-  )
-}
+import './index.less';
+
+const ToolDivider = () => {
+  return <div className={addClassName(['ui-tool-divider'])} />;
+};
+
+export default ToolDivider;
