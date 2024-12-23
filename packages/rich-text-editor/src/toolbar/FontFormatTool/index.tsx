@@ -5,7 +5,6 @@ import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext
 import { $isDecoratorBlockNode } from '@lexical/react/LexicalDecoratorBlockNode';
 import { $isHeadingNode, $isQuoteNode } from '@lexical/rich-text';
 import { $getNearestBlockElementAncestorOrThrow, mergeRegister } from '@lexical/utils';
-import { Space } from 'antd';
 import {
   $createParagraphNode,
   $getSelection,
@@ -17,13 +16,8 @@ import {
   TextFormatType,
 } from 'lexical';
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import { DEFAULT_ANTD_COMPONENT_SIZE } from '../../config/AntdUiConfig';
-import {
-  FontFormatTextEnum,
-  FontFormatType,
-  FontFormatTypeEnum,
-  HeadingDisabledFormats,
-} from './config';
+import { DEFAULT_TOOLBAR_ICON_SIZE } from '../../config/AntdUiConfig';
+import { FontFormatType, FontFormatTypeEnum, HeadingDisabledFormats } from './config';
 
 import ToolButton from '../../ui/ToolButton';
 
@@ -219,7 +213,7 @@ const FontFormatTool = (props: FontFormatPropsType) => {
       <ToolButton
         type="text"
         active={active}
-        size={DEFAULT_ANTD_COMPONENT_SIZE}
+        size={DEFAULT_TOOLBAR_ICON_SIZE}
         disabled={disabled}
         onClick={touchButtonCallback}
       >

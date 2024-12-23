@@ -1,3 +1,5 @@
+import isNil from 'lodash/isNil'
+
 // 编辑器默认 className 标识
 export const CLASSNAMETAG = 'editor';
 

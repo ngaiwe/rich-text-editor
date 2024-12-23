@@ -19,11 +19,12 @@ const ToolButton: FC<Partial<ToolButtonProps>> = (
     disabled: false,
   },
 ) => {
+  console.log('size: ', props.size)
   return (
     <button
       className={addClassName([
         'ui-tool-button',
-        `ui-tool-button-${props.size}`,
+        `ui-tool-button-${props.size ?? 'base'}`,
         props.active ? 'ui-tool-button-active' : '',
       ])}
       onClick={props.onClick}

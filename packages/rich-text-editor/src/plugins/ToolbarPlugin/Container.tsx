@@ -1,3 +1,5 @@
+import './index.less';
+
 import { Col, Row } from 'antd';
 import { PluginHandle, PluginsType, UPLOAD_IMAGE_PLUGIN_CONFIG } from '../../config/PluginsConfig';
 import { AlignDropDownTool } from '../../toolbar/AlignDropDownTool';
@@ -11,7 +13,9 @@ import { InsertTool } from '../../toolbar/InsertTool';
 import { UploadImageTool } from '../../toolbar/UploadImageTool';
 
 import ToolDivider from '../../ui/ToolDivider';
-import ToolBox from '@/ui/ToolBox';
+import { addClassName } from '@/utils/className';
+
+const classNameTag = 'toolbar-plugin';
 
 interface ContainerPropsType {
   plugins?: PluginsType;
@@ -19,87 +23,94 @@ interface ContainerPropsType {
 
 export const Container = (props: ContainerPropsType) => {
   return (
-    <Row align="middle">
-      <Col>
-        <FormatPainterTool />
-      </Col>
-      <Col>
-        <ToolDivider />
-      </Col>
-      <Col>
-        <FontFormatTool type={FontFormatTypeEnum.reset} />
-      </Col>
-      <Col>
-        <ToolDivider />
-      </Col>
-      <Col>
-        <BlockControlsDropDownTool />
-      </Col>
-      <Col>
-        <ToolDivider />
-      </Col>
-      <Col>
-        <FontDropDownTool type="fontSize" />
-      </Col>
-      <Col>
-        <ToolDivider />
-      </Col>
-      <Col>
-        <FontDropDownTool type="fontSpacing" />
-      </Col>
-      <Col>
-        <ToolDivider />
-      </Col>
-      <Col>
-        <FontDropDownTool type="fontLineHeight" />
-      </Col>
-      <Col>
-        <ToolDivider />
-      </Col>
-      <Col>
-        <ColorDropDownTool type="fontColor" />
-      </Col>
-      <Col>
-        <ToolDivider />
-      </Col>
-      <Col>
-        <ColorDropDownTool type="fontBdColor" />
-      </Col>
-      <Col>
-        <ToolDivider />
-      </Col>
-      <Col>
-        <FontFormatTool type={FontFormatTypeEnum.bold} />
-      </Col>
-      <Col>
-        <ToolDivider />
-      </Col>
-      <Col>
-        <FontFormatTool type={FontFormatTypeEnum.italic} />
-      </Col>
-      <Col>
-        <ToolDivider />
-      </Col>
-      <Col>
-        <FontFormatTool type={FontFormatTypeEnum.underline} />
-      </Col>
-      <Col>
-        <ToolDivider />
-      </Col>
-      <Col>
-        <AlignDropDownTool />
-      </Col>
-      <InsertTool plugins={props.plugins} />
-      {PluginHandle.hasUploadImagePlugin(props.plugins) && (
-        <>
-          <Col>
-            <ToolDivider />
-          </Col>
-          <Col>
-            <UploadImageTool {...props.plugins?.[UPLOAD_IMAGE_PLUGIN_CONFIG]} />
-          </Col>
-        </>
-      )}
-    </Row>
+    <div className={addClassName([`${classNameTag}-container`])}>
+      <FormatPainterTool />
+
+      <ToolDivider />
+
+      <FontFormatTool type={FontFormatTypeEnum.reset} />
+    </div>
+    // <Row align="middle">
+    //   <Col>
+    //     <FormatPainterTool />
+    //   </Col>
+    //   <Col>
+    //     <ToolDivider />
+    //   </Col>
+    //   <Col>
+    //     <FontFormatTool type={FontFormatTypeEnum.reset} />
+    //   </Col>
+    //   <Col>
+    //     <ToolDivider />
+    //   </Col>
+    //   <Col>
+    //     <BlockControlsDropDownTool />
+    //   </Col>
+    //   <Col>
+    //     <ToolDivider />
+    //   </Col>
+    //   <Col>
+    //     <FontDropDownTool type="fontSize" />
+    //   </Col>
+    //   <Col>
+    //     <ToolDivider />
+    //   </Col>
+    //   <Col>
+    //     <FontDropDownTool type="fontSpacing" />
+    //   </Col>
+    //   <Col>
+    //     <ToolDivider />
+    //   </Col>
+    //   <Col>
+    //     <FontDropDownTool type="fontLineHeight" />
+    //   </Col>
+    //   <Col>
+    //     <ToolDivider />
+    //   </Col>
+    //   <Col>
+    //     <ColorDropDownTool type="fontColor" />
+    //   </Col>
+    //   <Col>
+    //     <ToolDivider />
+    //   </Col>
+    //   <Col>
+    //     <ColorDropDownTool type="fontBdColor" />
+    //   </Col>
+    //   <Col>
+    //     <ToolDivider />
+    //   </Col>
+    //   <Col>
+    //     <FontFormatTool type={FontFormatTypeEnum.bold} />
+    //   </Col>
+    //   <Col>
+    //     <ToolDivider />
+    //   </Col>
+    //   <Col>
+    //     <FontFormatTool type={FontFormatTypeEnum.italic} />
+    //   </Col>
+    //   <Col>
+    //     <ToolDivider />
+    //   </Col>
+    //   <Col>
+    //     <FontFormatTool type={FontFormatTypeEnum.underline} />
+    //   </Col>
+    //   <Col>
+    //     <ToolDivider />
+    //   </Col>
+    //   <Col>
+    //     <AlignDropDownTool />
+    //   </Col>
+    //   <InsertTool plugins={props.plugins} />
+    //   {PluginHandle.hasUploadImagePlugin(props.plugins) && (
+    //     <>
+    //       <Col>
+    //         <ToolDivider />
+    //       </Col>
+    //       <Col>
+    //         <UploadImageTool {...props.plugins?.[UPLOAD_IMAGE_PLUGIN_CONFIG]} />
+    //       </Col>
+    //     </>
+    //   )}
+    // </Row>
   );
 };
