@@ -1,6 +1,6 @@
 // 工作栏 - 文字格式处理 加粗 | 倾斜等
 import useHeadingNode from '@/hooks/useHeadingNode';
-import { BoldOutlined, ItalicOutlined, UnderlineOutlined } from '@ant-design/icons';
+import { BoldOutlined, ItalicOutlined, UnderlineOutlined, ClearOutlined } from '@ant-design/icons';
 import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext';
 import { $isDecoratorBlockNode } from '@lexical/react/LexicalDecoratorBlockNode';
 import { $isHeadingNode, $isQuoteNode } from '@lexical/rich-text';
@@ -22,7 +22,6 @@ import { FontFormatType, FontFormatTypeEnum, HeadingDisabledFormats } from './co
 import ToolButton from '../../ui/ToolButton';
 
 import { CLEAR_FORMATTING, FormatPayload } from '../../config/GlobalCommand';
-import { FormatPainterOutlined } from '@ant-design/icons';
 
 // 工具栏更新状态白名单
 const UPDATE_TOOL_TYPE: string[] = [
@@ -83,7 +82,7 @@ const FontFormatTool = (props: FontFormatPropsType) => {
         // 重置格式
         return (
           <>
-            <FormatPainterOutlined />
+            <ClearOutlined />
           </>
         );
       case FontFormatTypeEnum.bold:
