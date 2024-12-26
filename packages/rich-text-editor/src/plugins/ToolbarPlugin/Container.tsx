@@ -12,6 +12,8 @@ import { InsertTool } from '../../toolbar/InsertTool';
 
 import ToolDivider from '../../ui/ToolDivider';
 import { addClassName } from '@/utils/className';
+import ToolDropDown from '@/ui/ToolDropDown';
+import { UnorderedListOutlined } from '@ant-design/icons';
 
 const classNameTag = 'toolbar-plugin';
 
@@ -31,6 +33,10 @@ export const Container = (props: ContainerPropsType) => {
       <ToolDivider />
 
       {/* 以上测试完毕 */}
+
+      <ToolDropDown buttonIcon={<UnorderedListOutlined />} />
+
+      <ToolDivider />
 
       <BlockControlsDropDownTool />
 

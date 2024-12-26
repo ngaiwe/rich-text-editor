@@ -1,7 +1,6 @@
 @import '../../styles/var.less';
 
 .@{editor-prefix}_ui-tool-button {
-  width: 36px;
   height: 36px;
   line-height: 36px;
   padding: 8px;
@@ -40,7 +39,7 @@
     font-size: var(--editor-font-size-large);
   }
 
-  &-active {
+  &-active, &:hover {
     color: var(--editor-color-text-primary);
     background-color: var(--editor-color-state-pressed);
   }

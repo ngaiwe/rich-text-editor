@@ -32,6 +32,7 @@ import { ValueOf } from '../../@types/global';
 import { BlockControls, OPTIONS } from './config';
 
 import { CLEAR_FORMATTING } from '../../config/GlobalCommand';
+import DropDown, { DropDownItem } from '@/ui/ToolDropDown';
 
 const BlockControlsDropDownTool = () => {
   const [editor] = useLexicalComposerContext();
@@ -147,19 +148,26 @@ const BlockControlsDropDownTool = () => {
   }, [editor]);
 
   return (
-    <div>
-      <Select
-        size="large"
-        defaultValue={BlockControls.normal}
-        value={blockType}
-        defaultActiveFirstOption
-        style={{ width: 120 }}
-        bordered={false}
-        disabled={!editor.isEditable()}
-        options={OPTIONS}
-        onChange={changeCallback}
-      />
-    </div>
+    <DropDown>
+      {OPTIONS.map((option, index) => (
+        <DropDownItem key={index}>
+          <span>{option.label}</span>
+        </DropDownItem>
+      ))}
+    </DropDown>
+    // <div>
+    //   <Select
+    //     size="large"
+    //     defaultValue={BlockControls.normal}
+    //     value={blockType}
+    //     defaultActiveFirstOption
+    //     style={{ width: 120 }}
+    //     bordered={false}
+    //     disabled={!editor.isEditable()}
+    //     options={OPTIONS}
+    //     onChange={changeCallback}
+    //   />
+    // </div>
   );
 };
 

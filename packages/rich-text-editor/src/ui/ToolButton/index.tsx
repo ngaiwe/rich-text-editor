@@ -1,7 +1,9 @@
 import { addClassName } from '@/utils/className';
 
-import { FC } from 'react';
+import { forwardRef } from 'react';
 import './index.less';
+
+interface ToolButtonRef extends HTMLButtonElement {}
 
 export interface ToolButtonProps {
   type: 'primary' | 'dashed' | 'link' | 'text' | 'default';
@@ -12,26 +14,24 @@ export interface ToolButtonProps {
   children: React.ReactNode;
 }
 
-const ToolButton: FC<Partial<ToolButtonProps>> = (
-  props = {
-    type: 'default',
-    size: 'base',
-    disabled: false,
+const ToolButton = forwardRef<ToolButtonRef, Partial<ToolButtonProps>>(
+  ({ size = 'base', children, active, onClick }, ref) => {
+    return (
+      <button
+        ref={ref}
+        className={addClassName([
+          'ui-tool-button',
+          `ui-tool-button-${size ?? 'base'}`,
+          active ? 'ui-tool-button-active' : '',
+        ])}
+        onClick={onClick}
+      >
+        {children}
+      </button>
+    );
   },
-) => {
-  console.log('size: ', props.size)
-  return (
-    <button
-      className={addClassName([
-        'ui-tool-button',
-        `ui-tool-button-${props.size ?? 'base'}`,
-        props.active ? 'ui-tool-button-active' : '',
-      ])}
-      onClick={props.onClick}
-    >
-      {props.children}
-    </button>
-  );
-};
+);
+
+ToolButton.displayName = 'ToolButton';
 
 export default ToolButton;
