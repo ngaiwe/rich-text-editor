@@ -31,6 +31,10 @@ const DropDown: FC<ToolDropDownProps> = props => {
     }
   }, [dropDownRef, buttonRef, showDropDown]);
 
+  useEffect(() => {
+    console.log('children', props.children);
+  }, [props.children]);
+
   return (
     <>
       <ToolButton ref={buttonRef} onClick={() => setShowDropDown(!showDropDown)}>

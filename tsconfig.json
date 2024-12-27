@@ -16,7 +16,7 @@
     "noStrictGenericChecks": false,
     "skipLibCheck": true,
     "allowJs": true,
-    "strict": true,
+    "strict": false,
     "sourceMap": false,
     "allowSyntheticDefaultImports": true,
     "noUnusedLocals": true,

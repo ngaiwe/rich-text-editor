@@ -7,14 +7,14 @@ interface DropDownItemsProps {
   children?: React.ReactNode;
 }
 
-const DropDownItems = forwardRef<DropDownItemsRef, DropDownItemsProps>(({ children }, ref) => {
+const DropDownItems = forwardRef<DropDownItemsRef, DropDownItemsProps>((props, ref) => {
   useEffect(() => {
-    console.log('children', children);
-  }, [children]);
+    console.log('childrens', props.children);
+  }, [props.children]);
 
   return (
     <div ref={ref} className={addClassName([`${classNameTag}-items`])}>
-      {children}
+      {props.children}
     </div>
   );
 });
