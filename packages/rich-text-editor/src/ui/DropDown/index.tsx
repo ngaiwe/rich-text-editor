@@ -1,6 +1,6 @@
 import './index.less';
 import { addClassName } from '@/utils/className';
-import { FC, useEffect, useRef, useState } from 'react';
+import { FC, isValidElement, useEffect, useMemo, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import ToolButton from '../ToolButton';
 import { DownOutlined, UpOutlined } from '@ant-design/icons';
@@ -12,7 +12,8 @@ export { default as DropDownItem } from './DropDownItem';
 interface ToolDropDownProps {
   buttonIcon?: React.ReactNode;
   buttonText?: string;
-  children?: React.ReactNode;
+  value?: string | number;
+  children?: React.ReactNode[];
 }
 
 const DropDown: FC<ToolDropDownProps> = props => {
@@ -32,8 +33,20 @@ const DropDown: FC<ToolDropDownProps> = props => {
   }, [dropDownRef, buttonRef, showDropDown]);
 
   useEffect(() => {
-    console.log('children', props.children);
+    console.log('value', props.children);
   }, [props.children]);
+
+  const buttonText = useMemo(() => {
+    if (!props.children?.length) {
+      return '';
+    }
+
+    return props.children
+      ?.filter((child): child is React.ReactElement => isValidElement(child))
+      .find(child => {
+        return child.props.value === props.value;
+      })?.props.label;
+  }, [props.children, props.value]);
 
   return (
     <>
@@ -41,7 +54,7 @@ const DropDown: FC<ToolDropDownProps> = props => {
         {props.buttonIcon && (
           <span className={addClassName([`${classNameTag}-button-icon`])}>{props.buttonIcon}</span>
         )}
-        <span className={addClassName([`${classNameTag}-button-span`])}>{props.buttonText}</span>
+        <span className={addClassName([`${classNameTag}-button-span`])}>{buttonText}</span>
         {showDropDown ? <UpOutlined /> : <DownOutlined />}
       </ToolButton>
 

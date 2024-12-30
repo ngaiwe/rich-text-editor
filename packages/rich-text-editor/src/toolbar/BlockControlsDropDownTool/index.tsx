@@ -3,7 +3,7 @@ import {
   $isListNode,
   // INSERT_ORDERED_LIST_COMMAND,
   // INSERT_UNORDERED_LIST_COMMAND,
-  // ListNode,
+  ListNode,
   // REMOVE_LIST_COMMAND,
 } from '@lexical/list';
 import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext';
@@ -14,7 +14,7 @@ import {
   // HeadingTagType,
 } from '@lexical/rich-text';
 // import { $setBlocksType } from '@lexical/selection';
-import { $findMatchingParent } from '@lexical/utils';
+import { $findMatchingParent, $getNearestNodeOfType } from '@lexical/utils';
 // import { Select } from 'antd';
 import {
   // $createParagraphNode,
@@ -27,17 +27,18 @@ import {
   // RangeSelection,
   SELECTION_CHANGE_COMMAND,
 } from 'lexical';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 // import { ValueOf } from '../../@types/global';
 import { BlockControls, OPTIONS } from './config';
 
 // import { CLEAR_FORMATTING } from '../../config/GlobalCommand';
 import DropDown, { DropDownItem } from '@/ui/DropDown';
+import { UnorderedListOutlined } from '@ant-design/icons';
 
 const BlockControlsDropDownTool = () => {
   const [editor] = useLexicalComposerContext();
 
-  // const [blockType, setBlockType] = useState(BlockControls.normal);
+  const [blockType, setBlockType] = useState(BlockControls.normal);
 
   // const updateHeadingNode = useCallback(
   //   (value: HeadingTagType, selection: RangeSelection) => {
@@ -127,16 +128,16 @@ const BlockControlsDropDownTool = () => {
 
           if (elementDOM !== null) {
             if ($isListNode(element)) {
-              // const parentList = $getNearestNodeOfType<ListNode>(anchorNode, ListNode);
-              // const type = parentList ? parentList.getListType() : element.getListType();
-              // setBlockType(type);
+              const parentList = $getNearestNodeOfType<ListNode>(anchorNode, ListNode);
+              const type = parentList ? parentList.getListType() : element.getListType();
+              setBlockType(type);
             } else {
               const type = $isHeadingNode(element) ? element.getTag() : element.getType();
 
               if (type in BlockControls) {
-                // setBlockType(type as keyof typeof BlockControls);
+                setBlockType(type as keyof typeof BlockControls);
               } else {
-                // setBlockType(BlockControls.normal);
+                setBlockType(BlockControls.normal);
               }
             }
           }
@@ -148,13 +149,10 @@ const BlockControlsDropDownTool = () => {
   }, [editor]);
 
   return (
-    <DropDown>
-      {/* {OPTIONS.map((option, index) => (
-        <DropDownItem key={index}>
-          <span>{option.label}</span>
-        </DropDownItem>
-      ))} */}
-      <div>123</div>
+    <DropDown value={BlockControls.normal} buttonIcon={<UnorderedListOutlined />}>
+      {OPTIONS.map((option, index) => (
+        <DropDownItem key={index} label={option.label} value={option.value} />
+      ))}
     </DropDown>
     // <div>
     //   <Select

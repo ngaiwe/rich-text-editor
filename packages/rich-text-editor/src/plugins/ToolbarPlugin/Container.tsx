@@ -34,10 +34,6 @@ export const Container = (props: ContainerPropsType) => {
 
       {/* 以上测试完毕 */}
 
-      <ToolDropDown buttonIcon={<UnorderedListOutlined />} />
-
-      <ToolDivider />
-
       <BlockControlsDropDownTool />
 
       <ToolDivider />
