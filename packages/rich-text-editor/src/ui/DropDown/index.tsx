@@ -1,11 +1,11 @@
 import './index.less';
 import { addClassName } from '@/utils/className';
-import { FC, isValidElement, useEffect, useMemo, useRef, useState } from 'react';
+import { FC, isValidElement, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import ToolButton from '../ToolButton';
 import { DownOutlined, UpOutlined } from '@ant-design/icons';
 import DropDownItems from './DropDownItems';
-import { classNameTag, dropDownPadding } from './config';
+import { classNameTag, DropDownContext, dropDownPadding } from './config';
 
 export { default as DropDownItem } from './DropDownItem';
 
@@ -14,12 +14,14 @@ interface ToolDropDownProps {
   buttonText?: string;
   value?: string | number;
   children?: React.ReactNode[];
+  onChange?: (value: string | number) => void;
 }
 
 const DropDown: FC<ToolDropDownProps> = props => {
   const buttonRef = useRef<HTMLButtonElement>(null);
   const dropDownRef = useRef<HTMLDivElement>(null);
   const [showDropDown, setShowDropDown] = useState(false);
+  const [activeValue, setActiveValue] = useState<string | number>(props.value || '');
 
   useEffect(() => {
     const button = buttonRef.current;
@@ -32,9 +34,16 @@ const DropDown: FC<ToolDropDownProps> = props => {
     }
   }, [dropDownRef, buttonRef, showDropDown]);
 
-  useEffect(() => {
-    console.log('value', props.children);
-  }, [props.children]);
+  const dropDwonChange = useCallback(
+    (value: string | number) => {
+      setActiveValue(value);
+
+      props.onChange?.(value);
+
+      setShowDropDown(false);
+    },
+    [props],
+  );
 
   const buttonText = useMemo(() => {
     if (!props.children?.length) {
@@ -44,9 +53,9 @@ const DropDown: FC<ToolDropDownProps> = props => {
     return props.children
       ?.filter((child): child is React.ReactElement => isValidElement(child))
       .find(child => {
-        return child.props.value === props.value;
+        return child.props.value === activeValue;
       })?.props.label;
-  }, [props.children, props.value]);
+  }, [props.children, activeValue]);
 
   return (
     <>
@@ -60,7 +69,14 @@ const DropDown: FC<ToolDropDownProps> = props => {
 
       {showDropDown &&
         createPortal(
-          <DropDownItems ref={dropDownRef}>{props.children}</DropDownItems>,
+          <DropDownContext.Provider
+            value={{
+              activeValue,
+              dropDwonChange,
+            }}
+          >
+            <DropDownItems ref={dropDownRef}>{props.children}</DropDownItems>
+          </DropDownContext.Provider>,
           document.body,
         )}
     </>

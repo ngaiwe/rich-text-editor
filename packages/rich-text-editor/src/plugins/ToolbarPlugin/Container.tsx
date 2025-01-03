@@ -12,8 +12,8 @@ import { InsertTool } from '../../toolbar/InsertTool';
 
 import ToolDivider from '../../ui/ToolDivider';
 import { addClassName } from '@/utils/className';
-import ToolDropDown from '@/ui/DropDown';
-import { UnorderedListOutlined } from '@ant-design/icons';
+// import ToolDropDown from '@/ui/DropDown';
+// import { UnorderedListOutlined } from '@ant-design/icons';
 
 const classNameTag = 'toolbar-plugin';
 
