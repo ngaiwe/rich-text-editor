@@ -5,7 +5,6 @@ import {
   INSERT_UNORDERED_LIST_COMMAND,
   ListNode,
   REMOVE_LIST_COMMAND,
-  // REMOVE_LIST_COMMAND,
 } from '@lexical/list';
 import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext';
 import {
@@ -16,14 +15,12 @@ import {
 } from '@lexical/rich-text';
 import { $setBlocksType } from '@lexical/selection';
 import { $findMatchingParent, $getNearestNodeOfType } from '@lexical/utils';
-// import { Select } from 'antd';
 import {
   $createParagraphNode,
   $getSelection,
   $isRangeSelection,
   $isRootOrShadowRoot,
   COMMAND_PRIORITY_CRITICAL,
-  // eslint-disable-next-line camelcase
   DEPRECATED_$isGridSelection,
   RangeSelection,
   SELECTION_CHANGE_COMMAND,
@@ -155,19 +152,6 @@ const BlockControlsDropDownTool = () => {
         <DropDownItem key={index} label={option.label} value={option.value} />
       ))}
     </DropDown>
-    // <div>
-    //   <Select
-    //     size="large"
-    //     defaultValue={BlockControls.normal}
-    //     value={blockType}
-    //     defaultActiveFirstOption
-    //     style={{ width: 120 }}
-    //     bordered={false}
-    //     disabled={!editor.isEditable()}
-    //     options={OPTIONS}
-    //     onChange={changeCallback}
-    //   />
-    // </div>
   );
 };
 

@@ -34,6 +34,26 @@ const DropDown: FC<ToolDropDownProps> = props => {
     }
   }, [dropDownRef, buttonRef, showDropDown]);
 
+  useEffect(() => {
+    const button = buttonRef.current;
+
+    if (button !== null && showDropDown) {
+      const handle = (event: MouseEvent) => {
+        const target = event.target;
+        if (!button.contains(target as Node)) {
+          setShowDropDown(false);
+        }
+      };
+      document.addEventListener('click', handle);
+
+      return () => {
+        document.removeEventListener('click', handle);
+      };
+    }
+
+    return () => {};
+  }, [dropDownRef, buttonRef, showDropDown]);
+
   const dropDwonChange = useCallback(
     (value: string | number) => {
       setActiveValue(value);
@@ -53,9 +73,9 @@ const DropDown: FC<ToolDropDownProps> = props => {
     return props.children
       ?.filter((child): child is React.ReactElement => isValidElement(child))
       .find(child => {
-        return child.props.value === activeValue;
+        return child.props.value === props.value;
       })?.props.label;
-  }, [props.children, activeValue]);
+  }, [props.children, props.value]);
 
   return (
     <>
