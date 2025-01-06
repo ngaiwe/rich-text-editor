@@ -15,7 +15,7 @@ export interface ToolButtonProps {
 }
 
 const ToolButton = forwardRef<ToolButtonRef, Partial<ToolButtonProps>>(
-  ({ size = 'base', children, active, onClick }, ref) => {
+  ({ size = 'base', children, active, disabled, onClick }, ref) => {
     return (
       <button
         ref={ref}
@@ -24,6 +24,7 @@ const ToolButton = forwardRef<ToolButtonRef, Partial<ToolButtonProps>>(
           `ui-tool-button-${size ?? 'base'}`,
           active ? 'ui-tool-button-active' : '',
         ])}
+        disabled={disabled}
         onClick={onClick}
       >
         {children}

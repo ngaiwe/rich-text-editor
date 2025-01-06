@@ -12,8 +12,6 @@ import { InsertTool } from '../../toolbar/InsertTool';
 
 import ToolDivider from '../../ui/ToolDivider';
 import { addClassName } from '@/utils/className';
-// import ToolDropDown from '@/ui/DropDown';
-// import { UnorderedListOutlined } from '@ant-design/icons';
 
 const classNameTag = 'toolbar-plugin';
 
@@ -32,8 +30,6 @@ export const Container = (props: ContainerPropsType) => {
 
       <ToolDivider />
 
-      {/* 以上测试完毕 */}
-
       <BlockControlsDropDownTool />
 
       <ToolDivider />
@@ -46,9 +42,7 @@ export const Container = (props: ContainerPropsType) => {
 
       <ToolDivider />
 
-      <FontDropDownTool type="fontLineHeight" />
-
-      <ToolDivider />
+      {/* 以上测试完毕 */}
 
       <ColorDropDownTool type="fontColor" />
 

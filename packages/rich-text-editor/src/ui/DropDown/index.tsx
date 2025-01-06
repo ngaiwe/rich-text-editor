@@ -13,6 +13,7 @@ interface ToolDropDownProps {
   buttonIcon?: React.ReactNode;
   buttonText?: string;
   value?: string | number;
+  disabled?: boolean;
   children?: React.ReactNode[];
   onChange?: (value: string | number) => void;
 }
@@ -79,7 +80,11 @@ const DropDown: FC<ToolDropDownProps> = props => {
 
   return (
     <>
-      <ToolButton ref={buttonRef} onClick={() => setShowDropDown(!showDropDown)}>
+      <ToolButton
+        ref={buttonRef}
+        disabled={props.disabled}
+        onClick={() => setShowDropDown(!showDropDown)}
+      >
         {props.buttonIcon && (
           <span className={addClassName([`${classNameTag}-button-icon`])}>{props.buttonIcon}</span>
         )}
