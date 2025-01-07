@@ -10,12 +10,13 @@ export interface ToolButtonProps {
   size: 'small' | 'base' | 'middle' | 'large';
   active: boolean;
   disabled: boolean;
+  style: React.CSSProperties;
   onClick: (event: React.MouseEvent) => void;
   children: React.ReactNode;
 }
 
 const ToolButton = forwardRef<ToolButtonRef, Partial<ToolButtonProps>>(
-  ({ size = 'base', children, active, disabled, onClick }, ref) => {
+  ({ size = 'base', children, active, disabled, style, onClick }, ref) => {
     return (
       <button
         ref={ref}
@@ -24,6 +25,7 @@ const ToolButton = forwardRef<ToolButtonRef, Partial<ToolButtonProps>>(
           `ui-tool-button-${size ?? 'base'}`,
           active ? 'ui-tool-button-active' : '',
         ])}
+        style={style}
         disabled={disabled}
         onClick={onClick}
       >

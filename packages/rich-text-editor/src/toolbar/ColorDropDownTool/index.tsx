@@ -2,7 +2,8 @@
 import { BgColorsOutlined, FontColorsOutlined } from '@ant-design/icons';
 import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext';
 import { $getSelectionStyleValueForProperty, $patchStyleText } from '@lexical/selection';
-import { ColorPicker, ColorPickerProps, Space } from 'antd';
+import { ColorPickerProps, Space } from 'antd';
+import ColorPicker from '../../ui/ColorPicker';
 import type { Color } from 'antd/es/color-picker';
 import {
   $getSelection,
@@ -92,25 +93,26 @@ export const ColorDropDownTool = (props: ColorDropDownToolPropsType) => {
   }, [editor, updateToolbar]);
 
   return (
-    <Space align="center">
-      {props.type === 'fontColor' ? <FontColorsOutlined /> : <BgColorsOutlined />}
-      <ColorPicker
-        allowClear={allowClear}
-        disabledAlpha={disabledAlpha}
-        value={color}
-        disabled={!editor.isEditable()}
-        onChangeComplete={onColorChange}
-        presets={[
-          {
-            label: '标准色',
-            colors: RecommendedColor,
-          },
-          {
-            label: '最近使用',
-            colors: userUsedColors,
-          },
-        ]}
-      />
-    </Space>
+    <ColorPicker buttonIcon={<FontColorsOutlined />} />
+    // <Space align="center">
+    //   {props.type === 'fontColor' ? <FontColorsOutlined /> : <BgColorsOutlined />}
+    //   <ColorPicker
+    //     allowClear={allowClear}
+    //     disabledAlpha={disabledAlpha}
+    //     value={color}
+    //     disabled={!editor.isEditable()}
+    //     onChangeComplete={onColorChange}
+    //     presets={[
+    //       {
+    //         label: '标准色',
+    //         colors: RecommendedColor,
+    //       },
+    //       {
+    //         label: '最近使用',
+    //         colors: userUsedColors,
+    //       },
+    //     ]}
+    //   />
+    // </Space>
   );
 };

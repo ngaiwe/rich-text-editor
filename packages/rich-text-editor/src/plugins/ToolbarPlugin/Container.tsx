@@ -42,16 +42,6 @@ export const Container = (props: ContainerPropsType) => {
 
       <ToolDivider />
 
-      {/* 以上测试完毕 */}
-
-      <ColorDropDownTool type="fontColor" />
-
-      <ToolDivider />
-
-      <ColorDropDownTool type="fontBdColor" />
-
-      <ToolDivider />
-
       <FontFormatTool type={FontFormatTypeEnum.bold} />
 
       <ToolDivider />
@@ -61,6 +51,16 @@ export const Container = (props: ContainerPropsType) => {
       <ToolDivider />
 
       <FontFormatTool type={FontFormatTypeEnum.underline} />
+
+      <ToolDivider />
+
+      {/* 以上测试完毕 */}
+
+      <ColorDropDownTool type="fontColor" />
+
+      <ToolDivider />
+
+      <ColorDropDownTool type="fontBdColor" />
 
       <ToolDivider />
 
