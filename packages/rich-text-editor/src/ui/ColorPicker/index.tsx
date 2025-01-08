@@ -1,11 +1,12 @@
 import './index.less';
 
-import { FC, useRef, useState } from 'react';
+import { FC, useEffect, useRef, useState } from 'react';
 import ToolButton from '../ToolButton';
 import { addClassName } from '@/utils/className';
-import { classNameTag, ColorPickerContext } from './config';
+import { classNameTag, ColorPickerContext, dropDownPadding } from './config';
 import { DownOutlined, UpOutlined } from '@ant-design/icons';
 import { createPortal } from 'react-dom';
+import ColorPickerPanel from './ColorPickerPanel';
 
 interface ColorPickerProps {
   buttonIcon?: React.ReactNode;
@@ -14,7 +15,19 @@ interface ColorPickerProps {
 
 const ColorPicker: FC<ColorPickerProps> = props => {
   const buttonRef = useRef<HTMLButtonElement>(null);
+  const colorPickerPanelRef = useRef<HTMLDivElement>(null);
   const [showDropDown, setShowDropDown] = useState(false);
+
+  useEffect(() => {
+    const button = buttonRef.current;
+    const dropDown = colorPickerPanelRef.current;
+
+    if (showDropDown && button !== null && dropDown !== null) {
+      const { top, left } = button.getBoundingClientRect();
+      dropDown.style.top = `${top + button.offsetHeight + dropDownPadding}px`;
+      dropDown.style.left = `${Math.min(left, window.innerWidth - dropDown.offsetWidth - 20)}px`;
+    }
+  }, [colorPickerPanelRef, buttonRef, showDropDown]);
 
   return (
     <>
@@ -45,7 +58,7 @@ const ColorPicker: FC<ColorPickerProps> = props => {
               }
             }
           >
-            {/* <DropDownItems ref={dropDownRef}>{props.children}</DropDownItems> */}
+            <ColorPickerPanel ref={colorPickerPanelRef} />
           </ColorPickerContext.Provider>,
           document.body,
         )}

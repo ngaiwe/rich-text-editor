@@ -1,5 +1,6 @@
 import './styles/htmlVariables.less';
 import './styles/editor.less';
+import '@rc-component/color-picker/assets/index.css';
 
 import { LexicalComposer } from '@lexical/react/LexicalComposer';
 import React, { forwardRef } from 'react';
