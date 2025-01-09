@@ -93,7 +93,7 @@ export const ColorDropDownTool = (props: ColorDropDownToolPropsType) => {
   }, [editor, updateToolbar]);
 
   return (
-    <ColorPicker buttonIcon={<FontColorsOutlined />} />
+    <ColorPicker value={color} buttonIcon={<FontColorsOutlined />} />
     // <Space align="center">
     //   {props.type === 'fontColor' ? <FontColorsOutlined /> : <BgColorsOutlined />}
     //   <ColorPicker

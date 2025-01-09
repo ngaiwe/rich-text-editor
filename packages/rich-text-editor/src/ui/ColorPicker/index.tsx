@@ -1,6 +1,6 @@
 import './index.less';
 
-import { FC, useEffect, useRef, useState } from 'react';
+import { FC, useCallback, useEffect, useRef, useState } from 'react';
 import ToolButton from '../ToolButton';
 import { addClassName } from '@/utils/className';
 import { classNameTag, ColorPickerContext, dropDownPadding } from './config';
@@ -9,6 +9,7 @@ import { createPortal } from 'react-dom';
 import ColorPickerPanel from './ColorPickerPanel';
 
 interface ColorPickerProps {
+  value: string;
   buttonIcon?: React.ReactNode;
   disabled?: boolean;
 }
@@ -17,6 +18,16 @@ const ColorPicker: FC<ColorPickerProps> = props => {
   const buttonRef = useRef<HTMLButtonElement>(null);
   const colorPickerPanelRef = useRef<HTMLDivElement>(null);
   const [showDropDown, setShowDropDown] = useState(false);
+  const [color, setColor] = useState(props.value);
+
+  const handleColorChange = useCallback((value: string) => {
+    console.log('改变 color:', value);
+    setColor(value);
+  }, []);
+
+  useEffect(() => {
+    setColor(props.value);
+  }, [props.value]);
 
   useEffect(() => {
     const button = buttonRef.current;
@@ -51,12 +62,10 @@ const ColorPicker: FC<ColorPickerProps> = props => {
       {showDropDown &&
         createPortal(
           <ColorPickerContext.Provider
-            value={
-              {
-                // activeValue,
-                // dropDwonChange,
-              }
-            }
+            value={{
+              color,
+              handleColorChange,
+            }}
           >
             <ColorPickerPanel ref={colorPickerPanelRef} />
           </ColorPickerContext.Provider>,
