@@ -3,7 +3,7 @@ import './index.less';
 import { FC, useCallback, useEffect, useRef, useState } from 'react';
 import ToolButton from '../ToolButton';
 import { addClassName } from '@/utils/className';
-import { classNameTag, ColorPickerContext, dropDownPadding } from './config';
+import { classNameTag, ColorPickerContext, dropDownPadding, PresetsType } from './config';
 import { DownOutlined, UpOutlined } from '@ant-design/icons';
 import { createPortal } from 'react-dom';
 import ColorPickerPanel from './ColorPickerPanel';
@@ -12,6 +12,7 @@ interface ColorPickerProps {
   value: string;
   buttonIcon?: React.ReactNode;
   disabled?: boolean;
+  presets?: PresetsType;
 }
 
 const ColorPicker: FC<ColorPickerProps> = props => {
@@ -64,6 +65,7 @@ const ColorPicker: FC<ColorPickerProps> = props => {
           <ColorPickerContext.Provider
             value={{
               color,
+              presets: props.presets,
               handleColorChange,
             }}
           >

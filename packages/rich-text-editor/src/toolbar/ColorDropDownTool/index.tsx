@@ -93,7 +93,30 @@ export const ColorDropDownTool = (props: ColorDropDownToolPropsType) => {
   }, [editor, updateToolbar]);
 
   return (
-    <ColorPicker value={color} buttonIcon={<FontColorsOutlined />} />
+    <ColorPicker
+      presets={[
+        {
+          label: '预设字段',
+          colors: [
+            '#000000',
+            '#000000',
+            '#000000',
+            '#000000',
+            '#000000',
+            '#000000',
+            '#000000',
+            '#000000',
+            '#000000',
+            '#000000',
+            '#000000',
+            '#000000',
+            '#000000',
+          ],
+        },
+      ]}
+      value={color}
+      buttonIcon={<FontColorsOutlined />}
+    />
     // <Space align="center">
     //   {props.type === 'fontColor' ? <FontColorsOutlined /> : <BgColorsOutlined />}
     //   <ColorPicker

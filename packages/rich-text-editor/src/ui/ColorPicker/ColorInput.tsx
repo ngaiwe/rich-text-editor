@@ -4,24 +4,15 @@ import { ColorPickerContext } from './config';
 
 const hexReg = /(^#[\da-f]{6}$)|(^#[\da-f]{8}$)/i;
 const isHexString = (hex?: string) => hexReg.test(`#${hex}`);
+const delHashtag = (hex: string) => hex.replace(/^#/, '');
 
-export interface ColorInputProps {
-  // value?: Color;
-  // disabledAlpha?: boolean;
-  // onChange?: (value?: Color, type?: HsbaColorType, pickColor?: boolean) => void;
-  // onChangeComplete?: (value: Color) => void;
-  // value?: string;
-  // onChange?: (v: string) => void;
-}
-
-const ColorInput: FC<ColorInputProps> = () => {
+const ColorInput: FC = () => {
   const { color, handleColorChange } = useContext(ColorPickerContext);
-  // 去除井号
-  const [hexValue, setHexValue] = useState(color);
+  const [hexValue, setHexValue] = useState(delHashtag(color));
 
   useEffect(() => {
     if (color) {
-      setHexValue(color);
+      setHexValue(delHashtag(color));
     }
   }, [color]);
 
@@ -32,6 +23,7 @@ const ColorInput: FC<ColorInputProps> = () => {
       onChange={e => {
         const originValue = e.target.value;
         setHexValue(originValue);
+
         if (isHexString(originValue)) {
           handleColorChange(originValue);
         }

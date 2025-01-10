@@ -1,7 +1,6 @@
 // import type { HsbaColorType } from '@rc-component/color-picker';
 import RcColorPicker from '@rc-component/color-picker';
-import { useCallback, useContext, useState, type FC } from 'react';
-import ColorInput from './ColorInput';
+import { useContext, type FC } from 'react';
 import { ColorPickerContext } from './config';
 
 export interface PanelPickerProps {
@@ -13,11 +12,6 @@ export interface PanelPickerProps {
 
 const PanelPicker: FC<PanelPickerProps> = () => {
   const { color, handleColorChange } = useContext(ColorPickerContext);
-  // const [value, setValue] = useState(undefined);
-
-  // const handleColorChange = useCallback(v => {
-  //   console.log('handleColorChange:', v);
-  // }, []);
 
   return (
     <>
@@ -28,7 +22,6 @@ const PanelPicker: FC<PanelPickerProps> = () => {
           handleColorChange(colorValue.toHexString());
         }}
       />
-      {/* <ColorInput value={color} onChange={handleColorChange} /> */}
     </>
   );
 };
